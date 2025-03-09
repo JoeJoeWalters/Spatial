@@ -81,8 +81,8 @@ namespace Spatial.Helpers
         /// </summary>
         /// <param name="timeCalculationType"></param>
         /// <returns></returns>
-        public static List<GeoCoordinateExtended> TotalTime(this GeoFile file, TimeCalculationType timeCalculationType) => TotalTime(file.Routes[0].Points, timeCalculationType);
-        public static TimeSpan c(this List<GeoCoordinateExtended> points, TimeCalculationType timeCalculationType)
+        public static TimeSpan TotalTime(this GeoFile file, TimeCalculationType timeCalculationType) => TotalTime(file.Routes[0].Points, timeCalculationType);
+        public static TimeSpan TotalTime(this List<GeoCoordinateExtended> points, TimeCalculationType timeCalculationType)
         {
             TimeSpan result = new TimeSpan();
 
