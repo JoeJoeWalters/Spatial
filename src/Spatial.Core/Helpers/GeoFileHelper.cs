@@ -13,9 +13,25 @@ namespace Spatial.Helpers
     {
         private static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals }; // To handle Infinity and NaN
 
-        public static List<GeoCoordinateExtended> InfillPositions(this GeoFile file) => file.Routes[0].Points.InfillPositions();
-        
-        public static List<GeoCoordinateExtended> CalculateSpeeds(this GeoFile file) => file.Routes[0].Points.CalculateSpeeds();
+        public static GeoFile InfillPositions(this GeoFile file)
+        {
+            GeoFile clone = file.Clone();
+            foreach (var route in clone.Routes)
+            {
+                route.Points = route.Points.InfillPositions();
+            }
+            return clone;
+        }
+
+        public static GeoFile CalculateSpeeds(this GeoFile file)
+        {
+            GeoFile clone = file.Clone();
+            foreach (var route in clone.Routes)
+            {
+                route.Points = route.Points.CalculateSpeeds();
+            }
+            return clone;
+        }
 
         public static Double CalculateTotalDistance(this GeoFile file)
         {
@@ -57,13 +73,17 @@ namespace Spatial.Helpers
         public static GeoFile Clone(this GeoFile file)
             => JsonSerializer.Deserialize<GeoFile>(JsonSerializer.Serialize<GeoFile>(file, serialiserOptions), serialiserOptions); // Serialise and then deserialise the object to break the references to new objects
 
-        public static Double Compare(this GeoFile fileFrom, GeoFile fileTo, ActivityType activityType) => fileFrom.Routes[0].Points.Compare(fileTo.Routes[0].Points, activityType);
+        public static Double Compare(this GeoFile fileFrom, GeoFile fileTo, ActivityType activityType) 
+            => fileFrom.Routes[0].Points.Compare(fileTo.Routes[0].Points, activityType);
 
-        public static List<GeoCoordinateExtended> Delta(this GeoFile fileFrom, GeoFile fileTo, ActivityType activityType, CompareType compareType) => fileFrom.Routes[0].Points.Delta(fileTo.Routes[0].Points, activityType, compareType);
+        public static List<GeoCoordinateExtended> Delta(this GeoFile fileFrom, GeoFile fileTo, ActivityType activityType, CompareType compareType) 
+            => fileFrom.Routes[0].Points.Delta(fileTo.Routes[0].Points, activityType, compareType);
 
-        public static List<List<GeoCoordinateExtended>> Split(this GeoFile file, TimeSpan splitTime) => file.Routes[0].Points.Split(splitTime);
+        public static List<List<GeoCoordinateExtended>> Split(this GeoFile file, TimeSpan splitTime) 
+            => file.Routes[0].Points.Split(splitTime);
 
-        public static List<GeoCoordinateExtended> Merge(this List<GeoFile> files) => files.Select(geo => geo.Routes[0].Points).ToList().Merge();
+        public static List<GeoCoordinateExtended> Merge(this List<GeoFile> files) 
+            => files.Select(geo => geo.Routes[0].Points).ToList().Merge();
 
     }
 }
