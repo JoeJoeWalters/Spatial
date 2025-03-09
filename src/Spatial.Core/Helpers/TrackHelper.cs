@@ -14,9 +14,8 @@ namespace Spatial.Helpers
         public static Double EarthRadius = 40010040D; // What is the earth's radius in meters
         public static Double LatitudeDistance = EarthRadius / 360.0D; // What is 1 degree of latitude
 
-        private static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals}; // To handle Infinity and NaN
+        private static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals }; // To handle Infinity and NaN
 
-        public static List<GeoCoordinateExtended> InfillPositions(this GeoFile file) => InfillPositions(file.Routes[0].Points);
         public static List<GeoCoordinateExtended> InfillPositions(this List<GeoCoordinateExtended> points)
         {
             GeoCoordinateExtended lastValidPosition = null;
@@ -41,7 +40,6 @@ namespace Spatial.Helpers
             return points;
         }
 
-        public static List<GeoCoordinateExtended> CalculateSpeeds(this GeoFile file) => CalculateSpeeds(file.Routes[0].Points);
         public static List<GeoCoordinateExtended> CalculateSpeeds(this List<GeoCoordinateExtended> points)
         {
             // Loop the coords from start to finish missing the first 
@@ -59,7 +57,6 @@ namespace Spatial.Helpers
             return points;
         }
 
-        public static Double CalculateTotalDistance(this GeoFile file) => CalculateTotalDistance(file.Routes[0].Points);
         public static Double CalculateTotalDistance(this List<GeoCoordinateExtended> points)
         {
             Double distance = 0D;
@@ -81,7 +78,6 @@ namespace Spatial.Helpers
         /// </summary>
         /// <param name="timeCalculationType"></param>
         /// <returns></returns>
-        public static TimeSpan TotalTime(this GeoFile file, TimeCalculationType timeCalculationType) => TotalTime(file.Routes[0].Points, timeCalculationType);
         public static TimeSpan TotalTime(this List<GeoCoordinateExtended> points, TimeCalculationType timeCalculationType)
         {
             TimeSpan result = new TimeSpan();
@@ -118,7 +114,6 @@ namespace Spatial.Helpers
         /// </summary>
         /// <param name="points">The list of points to be cleaned of not moving time</param>
         /// <returns>The list of points with the not moving time removed</returns>
-        public static List<GeoCoordinateExtended> RemoveNotMoving(this GeoFile file) => RemoveNotMoving(file.Routes[0].Points);
         public static List<GeoCoordinateExtended> RemoveNotMoving(this List<GeoCoordinateExtended> points)
         {
             List<GeoCoordinateExtended> reference = points.Clone().CalculateSpeeds(); // Make a copy of the points first to break the reference and re-calculate the speeds
@@ -140,7 +135,7 @@ namespace Spatial.Helpers
 
             // Loop the array with the none moving time stripped out and re-calculate the coordinate times based on the time differences
             DateTime pointInTime = cleaned[0].Time; // Take the start time of the origional track to be the new start time
-            for (var refId = 0; refId < timeDiffArray.Count; refId ++)
+            for (var refId = 0; refId < timeDiffArray.Count; refId++)
             {
                 GeoCoordinateExtended manipulated = timeDiffArray[refId].Value; // Create a reference to the point on the track to have the time manipluated
 
@@ -162,11 +157,8 @@ namespace Spatial.Helpers
         /// </summary>
         /// <param name="points">The set of points to clone</param>
         /// <returns>The new list of points cloned from the source</returns>
-        public static GeoFile Clone(this GeoFile file) 
-            => JsonSerializer.Deserialize<GeoFile>(JsonSerializer.Serialize<GeoFile>(file, serialiserOptions), serialiserOptions); // Serialise and then deserialise the object to break the references to new objects
-
         public static List<GeoCoordinateExtended> Clone(this List<GeoCoordinateExtended> points)
-            => JsonSerializer.Deserialize<List<GeoCoordinateExtended>>(JsonSerializer.Serialize<List<GeoCoordinateExtended>>(points, serialiserOptions ), serialiserOptions); // Serialise and then deserialise the object to break the references to new objects
+            => JsonSerializer.Deserialize<List<GeoCoordinateExtended>>(JsonSerializer.Serialize<List<GeoCoordinateExtended>>(points, serialiserOptions), serialiserOptions); // Serialise and then deserialise the object to break the references to new objects
 
         /// <summary>
         /// Take a set of points and modify them to be rounded to the nearest X meters
@@ -184,7 +176,6 @@ namespace Spatial.Helpers
         /// <param name="compareTo">The set of points to compare the list of points to</param>
         /// <param name="activityType">What type of activity is it (mainly to reduce or increase the comparison fuzziness)</param>
         /// <returns></returns>
-        public static Double Compare(this GeoFile fileFrom, GeoFile fileTo, ActivityType activityType) => Compare(fileFrom.Routes[0].Points, fileTo.Routes[0].Points, activityType);
         public static Double Compare(this List<GeoCoordinateExtended> points, List<GeoCoordinateExtended> compareTo, ActivityType activityType)
         {
             Double score = 0.0D;
@@ -205,7 +196,6 @@ namespace Spatial.Helpers
         /// <param name="compareTo">The set of points to compare the list of points to</param>
         /// <param name="activityType">What type of activity is it (mainly to reduce or increase the comparison fuzziness)</param>
         /// <returns></returns>
-        public static List<GeoCoordinateExtended> Delta(this GeoFile fileFrom, GeoFile fileTo, ActivityType activityType, CompareType compareType) => Delta(fileFrom.Routes[0].Points, fileTo.Routes[0].Points, activityType, compareType);
         public static List<GeoCoordinateExtended> Delta(this List<GeoCoordinateExtended> points, List<GeoCoordinateExtended> compareTo, ActivityType activityType, CompareType compareType)
         {
             List<GeoCoordinateExtended> sourceRounded = points.Round(5D);
@@ -227,7 +217,6 @@ namespace Spatial.Helpers
         /// <param name="points">The origional set of points</param>
         /// <param name="splitTime"></param>
         /// <returns>An array containing two arrays of geographic points representing the two parts for the split</returns>
-        public static List<List<GeoCoordinateExtended>> Split(this GeoFile file, TimeSpan splitTime) => Split(file.Routes[0].Points, splitTime);
         public static List<List<GeoCoordinateExtended>> Split(this List<GeoCoordinateExtended> points, TimeSpan splitTime)
         {
             // Calculate the actual point in time of the split by adding the timeframe to the start time of the points
@@ -247,7 +236,6 @@ namespace Spatial.Helpers
         /// </summary>
         /// <param name="trackList">The array of tracks to be merged</param>
         /// <returns>The merged track</returns>
-        public static List<GeoCoordinateExtended> Merge(this List<GeoFile> files) => Merge(files.Select(geo => geo.Routes[0].Points).ToList());
         public static List<GeoCoordinateExtended> Merge(this List<List<GeoCoordinateExtended>> trackList)
         {
             List<GeoCoordinateExtended> merged = new List<GeoCoordinateExtended>();
