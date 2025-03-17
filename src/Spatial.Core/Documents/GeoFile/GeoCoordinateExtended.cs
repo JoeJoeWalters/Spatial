@@ -88,7 +88,8 @@ namespace Spatial.Core.Documents
             double dy = to.Latitude - this.Latitude;
             double newLat = this.Latitude + distanceCalc * dy;
             double newLon = this.Longitude + distanceCalc * dx;
-            return new GeoCoordinateExtended(newLat, newLon, 0); // TODO : Altitude
+            double newAlt = this.Altitude + distanceCalc * (to.Altitude - this.Altitude);
+            return new GeoCoordinateExtended(newLat, newLon, newAlt);
         }
 
     }

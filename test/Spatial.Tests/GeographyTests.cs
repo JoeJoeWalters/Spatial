@@ -151,16 +151,17 @@ namespace Spatial.Tests
         public void InterpolateBetweenToPoints_Should_GiveCorrectDistance()
         {
             // ARRANGE
-            double distanceInMeters = 100D;
             GeoCoordinateExtended from = new GeoCoordinateExtended(52.0166763, -0.6209997, 0);
-            GeoCoordinateExtended to = new GeoCoordinateExtended(52.009572, -0.4573654, 0);
+            GeoCoordinateExtended to = new GeoCoordinateExtended(52.009572, -0.4573654, 1000);
 
-            // ACT
-            GeoCoordinateExtended interpolated = from.Interpolate(to, distanceInMeters);
+			// ACT
+			double actualDistance = from.GetDistanceTo(to);
+			GeoCoordinateExtended interpolated = from.Interpolate(to, actualDistance / 2);
 
             // ASSERT
             double distance = from.GetDistanceTo(interpolated);
-            distance.Should().BeApproximately(distanceInMeters, 0.1); // Should be the same as requested distance (with a small margin of error due to curvature of the earth)
+            interpolated.Altitude.Should().BeApproximately(to.Altitude / 2, 0.1);
+			distance.Should().BeApproximately(actualDistance / 2, 1); // Should be the same as requested distance (with a small margin of error due to curvature of the earth and altitude)
         }
     }
 }
