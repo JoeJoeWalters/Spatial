@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     public interface IGeoFileConvertable
     {

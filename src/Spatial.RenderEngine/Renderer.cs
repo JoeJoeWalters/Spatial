@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using SkiaSharp;
-using Spatial.Common;
-using Spatial.Documents;
+using Spatial.Core.Common;
+using Spatial.Core.Documents;
 
 namespace Spatial.RenderEngine
 {

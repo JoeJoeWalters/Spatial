@@ -1,18 +1,16 @@
-﻿using Spatial.Documents;
+﻿using Spatial.Core.Common;
+using Spatial.Core.Documents;
 using Spatial.Types;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace Spatial.Helpers
+namespace Spatial.Core.Helpers
 {
     public static class GeoFileHelper
     {
-        private static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals }; // To handle Infinity and NaN
-
         public static GeoFile InfillPositions(this GeoFile file)
         {
             GeoFile clone = file.Clone();
@@ -71,7 +69,7 @@ namespace Spatial.Helpers
         }
 
         public static GeoFile Clone(this GeoFile file)
-            => JsonSerializer.Deserialize<GeoFile>(JsonSerializer.Serialize<GeoFile>(file, serialiserOptions), serialiserOptions); // Serialise and then deserialise the object to break the references to new objects
+            => JsonSerializer.Deserialize<GeoFile>(JsonSerializer.Serialize<GeoFile>(file, Shared.SerialiserOptions), Shared.SerialiserOptions); // Serialise and then deserialise the object to break the references to new objects
 
         public static Double Compare(this GeoFile fileFrom, GeoFile fileTo, ActivityType activityType) 
             => fileFrom.Routes[0].Points.Compare(fileTo.Routes[0].Points, activityType);

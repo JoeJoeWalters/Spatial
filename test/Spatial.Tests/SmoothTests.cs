@@ -1,4 +1,4 @@
-﻿using Spatial.Documents;
+﻿using Spatial.Core.Documents;
 
 namespace Spatial.Tests
 {

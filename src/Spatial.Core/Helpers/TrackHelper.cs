@@ -1,21 +1,16 @@
-﻿using Spatial.Documents;
+﻿using Spatial.Core.Common;
+using Spatial.Core.Documents;
 using Spatial.Types;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace Spatial.Helpers
+namespace Spatial.Core.Helpers
 {
     public static class TrackHelper
     {
-        public static Double EarthRadius = 40010040D; // What is the earth's radius in meters
-        public static Double LatitudeDistance = EarthRadius / 360.0D; // What is 1 degree of latitude
-
-        private static JsonSerializerOptions serialiserOptions = new JsonSerializerOptions() { NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals }; // To handle Infinity and NaN
-
         public static List<GeoCoordinateExtended> InfillPositions(this List<GeoCoordinateExtended> points)
         {
             GeoCoordinateExtended lastValidPosition = null;
@@ -158,7 +153,7 @@ namespace Spatial.Helpers
         /// <param name="points">The set of points to clone</param>
         /// <returns>The new list of points cloned from the source</returns>
         public static List<GeoCoordinateExtended> Clone(this List<GeoCoordinateExtended> points)
-            => JsonSerializer.Deserialize<List<GeoCoordinateExtended>>(JsonSerializer.Serialize<List<GeoCoordinateExtended>>(points, serialiserOptions), serialiserOptions); // Serialise and then deserialise the object to break the references to new objects
+            => JsonSerializer.Deserialize<List<GeoCoordinateExtended>>(JsonSerializer.Serialize<List<GeoCoordinateExtended>>(points, Shared.SerialiserOptions), Shared.SerialiserOptions); // Serialise and then deserialise the object to break the references to new objects
 
         /// <summary>
         /// Take a set of points and modify them to be rounded to the nearest X meters

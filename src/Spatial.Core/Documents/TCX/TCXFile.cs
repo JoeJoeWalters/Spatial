@@ -1,5 +1,6 @@
-﻿using Spatial.Common;
-using Spatial.Helpers;
+﻿using Spatial.Core.Common;
+using Spatial.Core.Helpers;
+using Spatial.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Xml.Serialization;
 /// <summary>
 /// https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd
 /// </summary>
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     /// <summary>
     /// Implementation of https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd

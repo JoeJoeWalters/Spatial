@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Spatial.Helpers
+namespace Spatial.Core.Helpers
 {
     public static class XmlHelper
     {

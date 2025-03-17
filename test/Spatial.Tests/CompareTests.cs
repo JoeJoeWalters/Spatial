@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using System;
-using Spatial.Documents;
-using Spatial.Helpers;
+using Spatial.Core.Documents;
+using Spatial.Core.Helpers;
 using Spatial.Types;
 using Xunit;
 

@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using System;
 using System.Collections.Generic;
-using Spatial.Documents;
-using Spatial.Helpers;
+using Spatial.Core.Documents;
+using Spatial.Core.Helpers;
 using Xunit;
 
 namespace Spatial.Tests

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Spatial.Helpers;
+using Spatial.Core.Helpers;
 
 namespace Spatial.Tests
 {

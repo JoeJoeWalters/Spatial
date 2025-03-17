@@ -1,7 +1,7 @@
-﻿using Spatial.Common;
+﻿using Spatial.Core.Common;
 using System;
 
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     [Serializable]
     public class GPXFix : XmlBase
