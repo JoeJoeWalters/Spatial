@@ -7,12 +7,16 @@ namespace Spatial.Tests
 {
     public class TestBase
     {
-        /// <summary>
-        /// Load data from an embedded resource to use for testing
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public String GetEmbeddedResource(String path)
+        public readonly double HalfMarathonTotalMinutes = 133.0; // Total time in minutes for the half marathon
+        public readonly double HalfMarathonMovingTime = 124.0; // Moving time in minutes for the half marathon
+		public readonly double HalfMarathonDistance = 21.37D; // Distance of the half marathon in km
+
+		/// <summary>
+		/// Load data from an embedded resource to use for testing
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		public String GetEmbeddedResource(String path)
         {
             // Get the current assembly information
             var assembly = typeof(TestBase).GetTypeInfo().Assembly;

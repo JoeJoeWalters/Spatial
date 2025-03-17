@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Spatial.Core.Common;
 using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
 using Spatial.Types;
@@ -33,7 +34,7 @@ namespace Spatial.Tests
 			Double distance = Math.Round(points.CalculateTotalDistance() / 1000, 2);
 
 			// ASSERT
-			distance.Should().Be(21.37D);
+			distance.Should().Be(HalfMarathonDistance);
 		}
 
 		[Fact]
@@ -46,7 +47,7 @@ namespace Spatial.Tests
 			TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.ActualTime);
 
 			// ASSERT
-			calculatedSpan.TotalMinutes.Should().BeApproximately(133.0, 1);
+			calculatedSpan.TotalMinutes.Should().BeApproximately(HalfMarathonTotalMinutes, 1);
 		}
 
 		[Fact]
@@ -59,7 +60,7 @@ namespace Spatial.Tests
 			TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.MovingTime);
 
 			// ASSERT
-			calculatedSpan.TotalMinutes.Should().BeApproximately(124.0, 1);
+			calculatedSpan.TotalMinutes.Should().BeApproximately(HalfMarathonMovingTime, 1);
 		}
 
 		[Fact]

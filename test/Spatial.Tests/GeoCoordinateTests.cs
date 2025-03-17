@@ -28,7 +28,6 @@ namespace Spatial.Tests
         public void GeoCoordinate_ConstructorWithDefaultValues_DoesNotThrow()
         {
             GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
-            
         }
 
         [Fact]
