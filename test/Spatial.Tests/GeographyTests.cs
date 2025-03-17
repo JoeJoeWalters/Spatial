@@ -8,160 +8,160 @@ using Xunit;
 
 namespace Spatial.Tests
 {
-    public class GeographyTests : TestBase
-    {
-        private readonly GeoFile geoTrackFile;
-        private readonly GeoFile geoFile;
-        private readonly GeoFile geoCompare1;
-        private readonly GeoFile geoCompare2;
+	public class GeographyTests : TestBase
+	{
+		private readonly GeoFile geoTrackFile;
+		private readonly GeoFile geoFile;
+		private readonly GeoFile geoCompare1;
+		private readonly GeoFile geoCompare2;
 
-        public GeographyTests()
-        {
-            geoTrackFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
-            geoFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx").ToGeoFile();
-            geoCompare1 = base.GetXMLData<GPXFile>("GPXFiles/Compare1.gpx").ToGeoFile();
-            geoCompare2 = base.GetXMLData<GPXFile>("GPXFiles/Compare2.gpx").ToGeoFile();
-        }
+		public GeographyTests()
+		{
+			geoTrackFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
+			geoFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx").ToGeoFile();
+			geoCompare1 = base.GetXMLData<GPXFile>("GPXFiles/Compare1.gpx").ToGeoFile();
+			geoCompare2 = base.GetXMLData<GPXFile>("GPXFiles/Compare2.gpx").ToGeoFile();
+		}
 
-        [Fact]
-        public void Calculate_Distance()
-        {
-            // ARRANGE
-            List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
+		[Fact]
+		public void Calculate_Distance()
+		{
+			// ARRANGE
+			List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
 
-            // ACT
-            Double distance = Math.Round(points.CalculateTotalDistance() / 1000, 2);
+			// ACT
+			Double distance = Math.Round(points.CalculateTotalDistance() / 1000, 2);
 
-            // ASSERT
-            distance.Should().Be(21.37D);
-        }
+			// ASSERT
+			distance.Should().Be(21.37D);
+		}
 
-        [Fact]
-        public void Calculate_Actual_Time()
-        {
-            // ARRANGE
-            List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
+		[Fact]
+		public void Calculate_Actual_Time()
+		{
+			// ARRANGE
+			List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
 
-            // ACT]
-            TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.ActualTime);
+			// ACT]
+			TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.ActualTime);
 
-            // ASSERT
-            calculatedSpan.TotalMinutes.Should().BeApproximately(133.0, 1);
-        }
+			// ASSERT
+			calculatedSpan.TotalMinutes.Should().BeApproximately(133.0, 1);
+		}
 
-        [Fact]
-        public void Calculate_Moving_Time()
-        {
-            // ARRANGE
-            List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
+		[Fact]
+		public void Calculate_Moving_Time()
+		{
+			// ARRANGE
+			List<GeoCoordinateExtended> points = geoFile.Routes[0].Points;
 
-            // ACT]
-            TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.MovingTime);
+			// ACT]
+			TimeSpan calculatedSpan = points.TotalTime(TimeCalculationType.MovingTime);
 
-            // ASSERT
-            calculatedSpan.TotalMinutes.Should().BeApproximately(124.0, 1);
-        }
+			// ASSERT
+			calculatedSpan.TotalMinutes.Should().BeApproximately(124.0, 1);
+		}
 
-        [Fact]
-        public void Track_Array_Mapping_Success()
-        {
-            // ARRANGE
-    
-            // ACT
-            Int32 trackCount = (Int32)geoTrackFile?.Routes?.Count;
-            Int32 trackpointCount = (Int32)geoTrackFile?.Routes[0].Points.Count;
+		[Fact]
+		public void Track_Array_Mapping_Success()
+		{
+			// ARRANGE
 
-            // ASSERT
-            trackCount.Should().Be(1);
-            trackpointCount.Should().BeGreaterThan(1);
-        }
+			// ACT
+			Int32 trackCount = (Int32)geoTrackFile?.Routes?.Count;
+			Int32 trackpointCount = (Int32)geoTrackFile?.Routes[0].Points.Count;
 
-        [Fact]
-        public void Track_Array_To_Coords()
-        {
-            // ARRANGE
+			// ASSERT
+			trackCount.Should().Be(1);
+			trackpointCount.Should().BeGreaterThan(1);
+		}
 
-            // ACT
-            Int32 coordCount = (Int32)geoTrackFile.Routes[0].Points.Count;
+		[Fact]
+		public void Track_Array_To_Coords()
+		{
+			// ARRANGE
 
-            // ASSERT
-            coordCount.Should().Be(523);
-        }
+			// ACT
+			Int32 coordCount = (Int32)geoTrackFile.Routes[0].Points.Count;
 
-        [Fact]
-        public void Track_Compare_Positive()
-        {
-            // ARRANGE
-            List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
-            List<GeoCoordinateExtended> compare2 = geoCompare1.Routes[0].Points;
+			// ASSERT
+			coordCount.Should().Be(523);
+		}
 
-            // ACT
-            Double score = compare1.Compare(compare2, ActivityType.Running);
+		[Fact]
+		public void Track_Compare_Positive()
+		{
+			// ARRANGE
+			List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
+			List<GeoCoordinateExtended> compare2 = geoCompare1.Routes[0].Points;
 
-            // ASSERT
-            score.Should().Be(1.0D); // Should be a perfect match
-        }
+			// ACT
+			Double score = compare1.Compare(compare2, ActivityType.Running);
 
-        [Fact]
-        public void Track_Compare_Negative()
-        {
-            // ARRANGE
-            List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
-            List<GeoCoordinateExtended> compare2 = geoTrackFile.Routes[0].Points;
+			// ASSERT
+			score.Should().Be(1.0D); // Should be a perfect match
+		}
 
-            // ACT
-            Double score = compare1.Compare(compare2, ActivityType.Running);
+		[Fact]
+		public void Track_Compare_Negative()
+		{
+			// ARRANGE
+			List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
+			List<GeoCoordinateExtended> compare2 = geoTrackFile.Routes[0].Points;
 
-            // ASSERT
-            score.Should().Be(0.0D); // Should be a total mismatch
-        }
+			// ACT
+			Double score = compare1.Compare(compare2, ActivityType.Running);
 
-        [Fact]
-        public void Track_Compare_Near()
-        {
-            // ARRANGE
-            List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
-            List<GeoCoordinateExtended> compare2 = geoCompare2.Routes[0].Points;
+			// ASSERT
+			score.Should().Be(0.0D); // Should be a total mismatch
+		}
 
-            // ACT
-            Double score = compare1.Compare(compare2, ActivityType.Running);
+		[Fact]
+		public void Track_Compare_Near()
+		{
+			// ARRANGE
+			List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
+			List<GeoCoordinateExtended> compare2 = geoCompare2.Routes[0].Points;
 
-            // ASSERT
-            score.Should().BeGreaterThan(0.75); // Should be a partial match
-        }
+			// ACT
+			Double score = compare1.Compare(compare2, ActivityType.Running);
 
-        [Fact]
-        public void Round_Coordinates_By_Meters()
-        {
-            // ARRANGE
-            GeoCoordinateExtended source = geoFile.Routes[0].Points[0];
-            GeoCoordinateExtended compareTo = source.Clone();
-            Double roundingMeters = 2D;
+			// ASSERT
+			score.Should().BeGreaterThan(0.75); // Should be a partial match
+		}
 
-            // ACT
-            compareTo.Round(roundingMeters); // Round second coordinate to 2 meter grid point
-            Double distance = compareTo.GetDistanceTo(source); // Calculate the distance in meters 
-            Double hypotenuse = Math.Sqrt(Math.Pow(roundingMeters, 2) + Math.Pow(roundingMeters, 2));
+		[Fact]
+		public void Round_Coordinates_By_Meters()
+		{
+			// ARRANGE
+			GeoCoordinateExtended source = geoFile.Routes[0].Points[0];
+			GeoCoordinateExtended compareTo = source.Clone();
+			Double roundingMeters = 2D;
 
-            // ASSERT
-            hypotenuse.Should().BeGreaterThan(distance); // Should be smaller than the hypotenuse
-        }
+			// ACT
+			compareTo.Round(roundingMeters); // Round second coordinate to 2 meter grid point
+			Double distance = compareTo.GetDistanceTo(source); // Calculate the distance in meters 
+			Double hypotenuse = Math.Sqrt(Math.Pow(roundingMeters, 2) + Math.Pow(roundingMeters, 2));
 
-        [Fact]
-        public void InterpolateBetweenToPoints_Should_GiveCorrectDistance()
-        {
-            // ARRANGE
-            GeoCoordinateExtended from = new GeoCoordinateExtended(52.0166763, -0.6209997, 0);
-            GeoCoordinateExtended to = new GeoCoordinateExtended(52.009572, -0.4573654, 1000);
+			// ASSERT
+			hypotenuse.Should().BeGreaterThan(distance); // Should be smaller than the hypotenuse
+		}
+
+		[Fact]
+		public void InterpolateBetweenToPoints_Should_GiveCorrectDistance()
+		{
+			// ARRANGE
+			GeoCoordinateExtended from = new GeoCoordinateExtended(52.0166763, -0.6209997, 0);
+			GeoCoordinateExtended to = new GeoCoordinateExtended(52.009572, -0.4573654, 1000);
 
 			// ACT
 			double actualDistance = from.GetDistanceTo(to);
 			GeoCoordinateExtended interpolated = from.Interpolate(to, actualDistance / 2);
 
-            // ASSERT
-            double distance = from.GetDistanceTo(interpolated);
-            interpolated.Altitude.Should().BeApproximately(to.Altitude / 2, 0.1);
+			// ASSERT
+			double distance = from.GetDistanceTo(interpolated);
+			interpolated.Altitude.Should().BeApproximately(to.Altitude / 2, 0.1);
 			distance.Should().BeApproximately(actualDistance / 2, 1); // Should be the same as requested distance (with a small margin of error due to curvature of the earth and altitude)
-        }
-    }
+		}
+	}
 }
