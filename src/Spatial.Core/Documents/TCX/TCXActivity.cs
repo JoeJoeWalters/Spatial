@@ -1,6 +1,5 @@
 ﻿using Spatial.Core.Common;
 using Spatial.Core.Helpers;
-using Spatial.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

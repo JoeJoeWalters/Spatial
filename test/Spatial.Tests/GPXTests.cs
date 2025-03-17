@@ -2,6 +2,8 @@ using FluentAssertions;
 using System;
 using Spatial.Core.Documents;
 using Xunit;
+using Spatial.Core.Common;
+using System.Text.Json;
 
 namespace Spatial.Tests
 {
@@ -15,6 +17,26 @@ namespace Spatial.Tests
         }
 
         [Fact]
+        public void GPXPoint_Compare_Setters()
+        {
+			// ARRANGE
+			GPXPoint point = new GPXPoint();
+
+			// ACT
+			point.Latitude = 1.0M;
+			point.Longitude = 2.0M;
+			point.Elevation = 3.0M;
+			point.Time = DateTime.UtcNow.ToString();
+			GPXPoint cloned = JsonSerializer.Deserialize<GPXPoint>(JsonSerializer.Serialize<GPXPoint>(point, Shared.SerialiserOptions), Shared.SerialiserOptions); // Serialise and then deserialise the object to break the references to new objects
+
+			// ASSERT
+            cloned.Latitude.Should().Be(point.Latitude);
+            cloned.Longitude.Should().Be(point.Longitude);
+            cloned.Elevation.Should().Be(point.Elevation);
+            cloned.Time.Should().Be(point.Time);
+		}
+
+		[Fact]
         public void Track_Compare_ToGeoFile_Conversion()
         {
             // ARRANGE
