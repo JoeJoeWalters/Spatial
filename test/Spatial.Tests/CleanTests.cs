@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
-using Spatial.Types;
+using Spatial.Core.Types;
 using Xunit;
 
 namespace Spatial.Tests

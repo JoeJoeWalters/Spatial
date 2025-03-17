@@ -9,7 +9,7 @@ using Xunit;
 using FluentAssertions;
 using System.Diagnostics;
 using Spatial.Core.Common;
-using Spatial.Types;
+using Spatial.Core.Types;
 
 namespace Spatial.Tests
 {

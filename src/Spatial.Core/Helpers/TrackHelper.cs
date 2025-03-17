@@ -1,6 +1,6 @@
 ﻿using Spatial.Core.Common;
 using Spatial.Core.Documents;
-using Spatial.Types;
+using Spatial.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Data;

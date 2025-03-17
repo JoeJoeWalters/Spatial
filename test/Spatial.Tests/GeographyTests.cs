@@ -2,7 +2,7 @@ using FluentAssertions;
 using Spatial.Core.Common;
 using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
-using Spatial.Types;
+using Spatial.Core.Types;
 using System;
 using System.Collections.Generic;
 using Xunit;

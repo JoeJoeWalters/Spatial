@@ -1,4 +1,4 @@
-﻿namespace Spatial.Types
+﻿namespace Spatial.Core.Types
 {
     public enum CompareType
     {
