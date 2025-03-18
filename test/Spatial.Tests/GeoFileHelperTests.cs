@@ -15,12 +15,18 @@ namespace Spatial.Tests
 {
     public class GeoFileHelperTests : TestBase
     {
+        private readonly GeoFile geoFile;
+        private readonly double geoDistance;
+
         private readonly GeoFile geoTrackFile;
         private readonly double geoTrackDistance;
 
         public GeoFileHelperTests()
         {
-            geoTrackFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx").ToGeoFile();
+            geoFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx").ToGeoFile();
+            geoDistance = Math.Round(geoFile.CalculateTotalDistance() / 1000, 2);
+
+            geoTrackFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
             geoTrackDistance = Math.Round(geoTrackFile.CalculateTotalDistance() / 1000, 2);
         }
 
@@ -40,14 +46,14 @@ namespace Spatial.Tests
         public void GeoFile_WithOneTrack_When_InfillPositions_Should_HaveSameDistance()
         {
             // ARRANGE
-            GeoFile processed = geoTrackFile.InfillPositions();
+            GeoFile processed = geoFile.InfillPositions();
 
             // ACT
             double processedDistance = Math.Round(processed.CalculateTotalDistance() / 1000, 2);
 
             // ASSERT
             processedDistance.Should().Be(HalfMarathonDistance);
-            geoTrackDistance.Should().Be(processedDistance);
+            geoDistance.Should().Be(processedDistance);
         }
 
         [Fact]
@@ -66,7 +72,7 @@ namespace Spatial.Tests
         public void GeoFile_WithOneTrack_When_CalculateSpeeds_Should_HaveSameDistanceAndTime()
         {
             // ARRANGE
-            GeoFile processed = geoTrackFile.CalculateSpeeds();
+            GeoFile processed = geoFile.CalculateSpeeds();
 
             // ACT
             double processedDistance = Math.Round(processed.CalculateTotalDistance() / 1000, 2);
@@ -74,7 +80,7 @@ namespace Spatial.Tests
             TimeSpan processedMovingTime = processed.TotalTime(TimeCalculationType.MovingTime);
 
             // ASSERT
-            geoTrackDistance.Should().Be(processedDistance);
+            geoDistance.Should().Be(processedDistance);
             processedDistance.Should().Be(HalfMarathonDistance);
             processedTime.TotalMinutes.Should().BeApproximately(HalfMarathonTotalMinutes, 1);
             processedMovingTime.TotalMinutes.Should().BeApproximately(HalfMarathonMovingTime, 1);
