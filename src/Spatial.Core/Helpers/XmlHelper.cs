@@ -35,11 +35,15 @@ namespace Spatial.Core.Helpers
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 XmlTextReader xmlReader = new XmlTextReader(strReader);
 
-                return (T)serializer.Deserialize(xmlReader);
+                T deserialised = (T)serializer.Deserialize(xmlReader);
+                if (deserialised == null)
+                    throw new Exception("Bad Data");
+
+                return deserialised;
             }
-            catch//(Exception ex)
+            catch(Exception ex)
             {
-                return default(T);
+                throw ex;
             }
         }
     }

@@ -62,11 +62,9 @@ namespace Spatial.Tests
                 // Use the base deserialise method to make sure any cleansing is done first
                 return XmlHelper.DeserialiseXML<T>(data);
             }
-            catch//()Exception ex)
+            catch(Exception ex)
             {
-                // Failure in getting data return default of T which will be 
-                // empty causing the tests to fail anyway
-                return default(T);
+                throw ex;
             }
         }
     }

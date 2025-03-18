@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx creator="StravaGPX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1" xmlns="http://www.topografix.com/GPX/1/1">
+	<metadata>
+		<name>West Witton Wanderer</name>
+		<desc>Avoiding as many roads as possible</desc>
+		<author>
+			<name>Boris The Blade</name>
+			<link href="https://www.strava.com/athletes/9999"/>
+		</author>
+		<link href="https://www.strava.com/routes/9999"/>
+	</metadata>
+	<trk>
+		<name>West Witton Wanderer</name>
+		<desc>Avoiding as many roads as possible</desc>
+		<link href="https://www.strava.com/routes/23704792"/>
+		<type>Run</type>
+		<trkseg>
+			<trkpt lat="54.291360000000005" lon="-1.9078800000000002">
+				<ele>ABCDEFGHIJKLMNOPQRSTUVWXYZ</ele>
+			</trkpt>
+		</trkseg>
+	</trk>
+</gpx>
