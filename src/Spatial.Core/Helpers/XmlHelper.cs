@@ -36,8 +36,8 @@ namespace Spatial.Core.Helpers
                 XmlTextReader xmlReader = new XmlTextReader(strReader);
 
                 T deserialised = (T)serializer.Deserialize(xmlReader);
-                if (deserialised == null)
-                    throw new Exception("Bad Data");
+                //if (deserialised == null)
+                //    throw new Exception("Bad Data");
 
                 return deserialised;
             }
