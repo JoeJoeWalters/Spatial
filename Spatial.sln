@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spatial.Core", "src\Spatial.Core\Spatial.Core.csproj", "{47ADB04D-9E00-44FC-B8EA-763FC80EDE5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spatial.Tests", "test\Spatial.Tests\Spatial.Tests.csproj", "{1AD2F672-1BF7-428E-BAC9-A7989D5CE769}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spatial.Core.Tests", "test\Spatial.Tests\Spatial.Core.Tests.csproj", "{1AD2F672-1BF7-428E-BAC9-A7989D5CE769}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{22FF46EB-5B83-472A-B239-F0AC767F10F7}"
 EndProject

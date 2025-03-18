@@ -5,14 +5,10 @@
 
     <IsPackable>false</IsPackable>
 
-    <AssemblyName>Spatial.Tests</AssemblyName>
+    <AssemblyName>Spatial.Core.Tests</AssemblyName>
 
-    <RootNamespace>Spatial.Tests</RootNamespace>
+    <RootNamespace>Spatial.Core.Tests</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="GPXFiles\Bad.gpx" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="7.1.0" />
@@ -29,16 +25,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="GPXFiles\Bad.gpx" />
-    <EmbeddedResource Include="GPXFiles\Compare1.gpx" />
-    <EmbeddedResource Include="GPXFiles\Compare2.gpx" />
-    <EmbeddedResource Include="GPXFiles\GPXRouteOnly.gpx" />
-    <EmbeddedResource Include="GPXFiles\HalfMarathon.gpx" />
-    <EmbeddedResource Include="TCXFiles\HalfMarathon.tcx" />
+    <EmbeddedResource Include="Data\GPXFiles\Bad.gpx" />
+    <EmbeddedResource Include="Data\GPXFiles\Compare1.gpx" />
+    <EmbeddedResource Include="Data\GPXFiles\Compare2.gpx" />
+    <EmbeddedResource Include="Data\GPXFiles\GPXRouteOnly.gpx" />
+    <EmbeddedResource Include="Data\GPXFiles\HalfMarathon.gpx" />
+    <EmbeddedResource Include="Data\TCXFiles\HalfMarathon.tcx" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Spatial.Core\Spatial.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Component\" />
   </ItemGroup>
 
 </Project>

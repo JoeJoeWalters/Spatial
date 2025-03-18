@@ -5,7 +5,7 @@ using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
 using Xunit;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     public class MergeTests : TestBase
     {
@@ -18,7 +18,7 @@ namespace Spatial.Tests
         {
             // Split a track file in two (testing for this is done elesewhere) and then 
             // keep the origional so we can compare it back to the origional
-            trackFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx").ToGeoFile();
+            trackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx").ToGeoFile();
             List<List<GeoCoordinateExtended>> splits = trackFile.Routes[0].Points.Split(new TimeSpan(1, 0, 0));
             part1 = splits[0];
             part2 = splits[1];

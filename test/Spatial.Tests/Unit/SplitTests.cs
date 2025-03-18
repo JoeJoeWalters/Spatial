@@ -5,7 +5,7 @@ using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
 using Xunit;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     public class SplitTests : TestBase
     {
@@ -14,7 +14,7 @@ namespace Spatial.Tests
 
         public SplitTests()
         {
-            gpxTrackFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx");
+            gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx");
         }
 
         [Fact]
@@ -48,8 +48,8 @@ namespace Spatial.Tests
 
             // ACT
             result = gpxConversion.Routes[0].Points.Split(splitTime);
-            Int32 part1Count = result[0].Count;
-            Int32 part2Count = result[1].Count;
+            int part1Count = result[0].Count;
+            int part2Count = result[1].Count;
 
             // ASSERT
             part1Count.Should().Be(0);
@@ -67,8 +67,8 @@ namespace Spatial.Tests
 
             // ACT
             result = gpxConversion.Routes[0].Points.Split(splitTime);
-            Int32 part1Count = result[0].Count;
-            Int32 part2Count = result[1].Count;
+            int part1Count = result[0].Count;
+            int part2Count = result[1].Count;
 
             // ASSERT
             gpxConversion.Routes[0].Points.Count.Should().Be(part1Count);

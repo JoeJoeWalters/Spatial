@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     public class XMLHelperTests : TestBase
     {
@@ -19,7 +19,7 @@ namespace Spatial.Tests
             // ARRANGE
 
             // ACT
-            Action act = () => base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx");
+            Action act = () => GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx");
 
             // ASSERT
             act.Should().NotThrow<Exception>();
@@ -31,7 +31,7 @@ namespace Spatial.Tests
             // ARRANGE
 
             // ACT
-            Action act = () => base.GetXMLData<GPXFile>("GPXFiles/Bad.gpx");
+            Action act = () => GetXMLData<GPXFile>("Data/GPXFiles/Bad.gpx");
 
             // ASSERT
             act.Should().Throw<Exception>();

@@ -6,7 +6,7 @@ using Spatial.Core.Helpers;
 using Spatial.Core.Types;
 using Xunit;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     public class CleanTests : TestBase
     {
@@ -14,7 +14,7 @@ namespace Spatial.Tests
 
         public CleanTests()
         {
-            trackFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx").ToGeoFile();
+            trackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx").ToGeoFile();
         }
 
         [Fact]

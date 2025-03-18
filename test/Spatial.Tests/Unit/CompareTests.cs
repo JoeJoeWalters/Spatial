@@ -5,7 +5,7 @@ using Spatial.Core.Helpers;
 using Spatial.Core.Types;
 using Xunit;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     public class CompareTests : TestBase
     {
@@ -15,8 +15,8 @@ namespace Spatial.Tests
 
         public CompareTests()
         {
-            tcxTrackFile = base.GetXMLData<TCXFile>("TCXFiles/HalfMarathon.tcx");
-            gpxTrackFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx");
+            tcxTrackFile = GetXMLData<TCXFile>("Data/TCXFiles/HalfMarathon.tcx");
+            gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx");
         }
 
         [Fact]
@@ -27,8 +27,8 @@ namespace Spatial.Tests
             GeoFile gpxConversion = gpxTrackFile.ToGeoFile();
 
             // ACT
-            Double tcxDistance = Math.Round(tcxConversion.Routes[0].Points.CalculateTotalDistance(), 0);
-            Double gpxDIstance = Math.Round(gpxConversion.Routes[0].Points.CalculateTotalDistance(), 0);
+            double tcxDistance = Math.Round(tcxConversion.Routes[0].Points.CalculateTotalDistance(), 0);
+            double gpxDIstance = Math.Round(gpxConversion.Routes[0].Points.CalculateTotalDistance(), 0);
 
             // ASSERT
             tcxDistance.Should().Be(gpxDIstance);

@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using Spatial.Core.Helpers;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     public class TestBase
     {
@@ -16,7 +16,7 @@ namespace Spatial.Tests
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		public String GetEmbeddedResource(String path)
+		public string GetEmbeddedResource(string path)
         {
             // Get the current assembly information
             var assembly = typeof(TestBase).GetTypeInfo().Assembly;
@@ -40,7 +40,7 @@ namespace Spatial.Tests
             catch
             {
                 // A forced or unforced error occoured, return nothing ..
-                return String.Empty;
+                return string.Empty;
             }
         }
 
@@ -50,12 +50,12 @@ namespace Spatial.Tests
         /// <typeparam name="T">The type of object to create and map in to</typeparam>
         /// <param name="path">THe path to the resource in the assembly</param>
         /// <returns>An object of the correct type</returns>
-        public T GetXMLData<T>(String path)
+        public T GetXMLData<T>(string path)
         {
             try
             {
                 // Get a string representing the XML from the embedded resource
-                String data = GetEmbeddedResource(path);
+                string data = GetEmbeddedResource(path);
                 if (data == null)
                     throw new Exception("No data");
 

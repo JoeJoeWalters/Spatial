@@ -1,6 +1,6 @@
 ﻿using Spatial.Core.Documents;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     public class SmoothTests : TestBase
     {
@@ -8,7 +8,7 @@ namespace Spatial.Tests
 
         public SmoothTests()
         {
-            trackFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx").ToGeoFile();
+            trackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx").ToGeoFile();
         }
     }
 }

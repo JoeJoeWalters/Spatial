@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     /// <summary>
     /// Tests for the geographical location class that is determined by latitude and longitude
@@ -27,7 +27,7 @@ namespace Spatial.Tests
         [Fact]
         public void GeoCoordinate_ConstructorWithDefaultValues_DoesNotThrow()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
         }
 
         [Fact]
@@ -58,15 +58,15 @@ namespace Spatial.Tests
         [Fact]
         public void GeoCoordinate_DefaultConstructor_ReturnsInstanceWithDefaultValues()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
-            coordinate.Altitude.Should().Be(Double.NaN);
-            coordinate.Course.Should().Be(Double.NaN);
-            coordinate.HorizontalAccuracy.Should().Be(Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
+            coordinate.Altitude.Should().Be(double.NaN);
+            coordinate.Course.Should().Be(double.NaN);
+            coordinate.HorizontalAccuracy.Should().Be(double.NaN);
             coordinate.IsUnknown.Should().BeTrue();
-            coordinate.Latitude.Should().Be(Double.NaN);
-            coordinate.Longitude.Should().Be(Double.NaN);
-            coordinate.Speed.Should().Be(Double.NaN);
-            coordinate.VerticalAccuracy.Should().Be(Double.NaN);
+            coordinate.Latitude.Should().Be(double.NaN);
+            coordinate.Longitude.Should().Be(double.NaN);
+            coordinate.Speed.Should().Be(double.NaN);
+            coordinate.VerticalAccuracy.Should().Be(double.NaN);
             
         }
 
@@ -109,8 +109,8 @@ namespace Spatial.Tests
         [Fact]
         public void GeoCoordinate_EqualsWithOtherTypes_ReturnsFalse()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
-            var something = new Nullable<Int32>(42);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
+            var something = new int?(42);
             coordinate.Equals(something).Should().BeFalse();
             
         }
@@ -133,23 +133,23 @@ namespace Spatial.Tests
         {
             Action act;
 
-            act = () => new GeoCoordinate(Double.NaN, 1).GetDistanceTo(new GeoCoordinate(5, 5));
+            act = () => new GeoCoordinate(double.NaN, 1).GetDistanceTo(new GeoCoordinate(5, 5));
             act.Should().Throw<ArgumentException>();
 
-            act = () => new GeoCoordinate(1, Double.NaN).GetDistanceTo(new GeoCoordinate(5, 5));
+            act = () => new GeoCoordinate(1, double.NaN).GetDistanceTo(new GeoCoordinate(5, 5));
             act.Should().Throw<ArgumentException>();
 
-            act = () => new GeoCoordinate(1, 1).GetDistanceTo(new GeoCoordinate(Double.NaN, 5));
+            act = () => new GeoCoordinate(1, 1).GetDistanceTo(new GeoCoordinate(double.NaN, 5));
             act.Should().Throw<ArgumentException>();
 
-            act = () => new GeoCoordinate(1, 1).GetDistanceTo(new GeoCoordinate(5, Double.NaN));
+            act = () => new GeoCoordinate(1, 1).GetDistanceTo(new GeoCoordinate(5, double.NaN));
             act.Should().Throw<ArgumentException>();
         }
 
         [Fact]
         public void GeoCoordinate_GetHashCode_OnlyReactsOnLongitudeAndLatitude()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
             coordinate.Latitude = 2;
             coordinate.Longitude = 3;
@@ -169,7 +169,7 @@ namespace Spatial.Tests
         [Fact]
         public void GeoCoordinate_GetHashCode_SwitchingLongitudeAndLatitudeReturnsSameHashCodes()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
             coordinate.Latitude = 2;
             coordinate.Longitude = 3;
@@ -186,18 +186,18 @@ namespace Spatial.Tests
         [Fact]
         public void GeoCoordinate_IsUnknownIfLongitudeAndLatitudeIsNaN_ReturnsTrue()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
             coordinate.Longitude = 1;
-            coordinate.Latitude = Double.NaN;
+            coordinate.Latitude = double.NaN;
             coordinate.IsUnknown.Should().BeFalse();
 
-            coordinate.Longitude = Double.NaN;
+            coordinate.Longitude = double.NaN;
             coordinate.Latitude = 1;
             coordinate.IsUnknown.Should().BeFalse();
 
-            coordinate.Longitude = Double.NaN;
-            coordinate.Latitude = Double.NaN;
+            coordinate.Longitude = double.NaN;
+            coordinate.Latitude = double.NaN;
             coordinate.IsUnknown.Should().BeTrue();
             
         }
@@ -221,18 +221,18 @@ namespace Spatial.Tests
         [Fact]
         public void GeoCoordinate_SetAltitude_ReturnsCorrectValue()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
-            coordinate.Altitude.Should().Be(Double.NaN);
+            coordinate.Altitude.Should().Be(double.NaN);
 
             coordinate.Altitude = 0;
             coordinate.Altitude.Should().Be(0);
 
-            coordinate.Altitude = Double.MinValue;
-            coordinate.Altitude.Should().Be(Double.MinValue);
+            coordinate.Altitude = double.MinValue;
+            coordinate.Altitude.Should().Be(double.MinValue);
 
-            coordinate.Altitude = Double.MaxValue;
-            coordinate.Altitude.Should().Be(Double.MaxValue);
+            coordinate.Altitude = double.MaxValue;
+            coordinate.Altitude.Should().Be(double.MaxValue);
             
         }
 
@@ -241,7 +241,7 @@ namespace Spatial.Tests
         {
             Action act;
 
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
             act = () => { coordinate.Course = -0.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
@@ -249,10 +249,10 @@ namespace Spatial.Tests
             act = () => { coordinate.Course = 360.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
-            act = () => new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, -0.1);
+            act = () => new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, -0.1);
             act.Should().Throw<ArgumentOutOfRangeException>();
 
-            act = () => new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 360.1);
+            act = () => new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, 360.1);
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
@@ -261,20 +261,20 @@ namespace Spatial.Tests
         {
             Action act;
 
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
             act = () => { coordinate.HorizontalAccuracy = -0.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
-            act = () => new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, -0.1, Double.NaN, Double.NaN, Double.NaN);
+            act = () => new GeoCoordinate(double.NaN, double.NaN, double.NaN, -0.1, double.NaN, double.NaN, double.NaN);
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Fact]
         public void GeoCoordinate_SetHorizontalAccuracyToZero_ReturnsNaNInProperty()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, 0, Double.NaN, Double.NaN, Double.NaN);
-            coordinate.HorizontalAccuracy.Should().Be(Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, 0, double.NaN, double.NaN, double.NaN);
+            coordinate.HorizontalAccuracy.Should().Be(double.NaN);
         }
 
         [Fact]
@@ -282,7 +282,7 @@ namespace Spatial.Tests
         {
             Action act;
 
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
             act = () => { coordinate.Latitude = 90.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
@@ -290,10 +290,10 @@ namespace Spatial.Tests
             act = () => { coordinate.Latitude = -90.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
-            act = () => new GeoCoordinate(90.1, Double.NaN);
+            act = () => new GeoCoordinate(90.1, double.NaN);
             act.Should().Throw<ArgumentOutOfRangeException>();
 
-            act = () => new GeoCoordinate(-90.1, Double.NaN);
+            act = () => new GeoCoordinate(-90.1, double.NaN);
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
@@ -302,7 +302,7 @@ namespace Spatial.Tests
         {
             Action act;
 
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
             act = () => { coordinate.Longitude = 180.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
@@ -310,10 +310,10 @@ namespace Spatial.Tests
             act = () => { coordinate.Longitude = -180.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
-            act = () => new GeoCoordinate(Double.NaN, 180.1);
+            act = () => new GeoCoordinate(double.NaN, 180.1);
             act.Should().Throw<ArgumentOutOfRangeException>();
 
-            act = () => new GeoCoordinate(Double.NaN, -180.1);
+            act = () => new GeoCoordinate(double.NaN, -180.1);
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
@@ -322,12 +322,12 @@ namespace Spatial.Tests
         {
             Action act;
 
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
             act = () => { coordinate.Speed = -0.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
-            act = () => new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, -1, Double.NaN);
+            act = () => new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, -1, double.NaN);
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
@@ -336,33 +336,33 @@ namespace Spatial.Tests
         {
             Action act;
 
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
             act = () => { coordinate.VerticalAccuracy = -0.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
-            act = () => new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, -0.1, Double.NaN, Double.NaN);
+            act = () => new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, -0.1, double.NaN, double.NaN);
             act.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Fact]
         public void GeoCoordinate_SetVerticalAccuracyToZero_ReturnsNaNInProperty()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0, Double.NaN, Double.NaN);
-            coordinate.VerticalAccuracy.Should().Be(Double.NaN);            
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, 0, double.NaN, double.NaN);
+            coordinate.VerticalAccuracy.Should().Be(double.NaN);            
         }
 
         [Fact]
         public void GeoCoordinate_ToString_ReturnsLongitudeAndLatitude()
         {
-            GeoCoordinate coordinate = new GeoCoordinate(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0, Double.NaN, Double.NaN);
+            GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, 0, double.NaN, double.NaN);
             coordinate.ToString().Should().Be("Unknown");
 
             coordinate.Latitude = 1;
-            coordinate.Longitude = Double.NaN;
+            coordinate.Longitude = double.NaN;
             coordinate.ToString().Should().Be("1, NaN");
 
-            coordinate.Latitude = Double.NaN;
+            coordinate.Latitude = double.NaN;
             coordinate.Longitude = 1;
             coordinate.ToString().Should().Be("NaN, 1");
         }

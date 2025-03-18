@@ -11,7 +11,7 @@ using System.Diagnostics;
 using Spatial.Core.Common;
 using Spatial.Core.Types;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     public class GeoFileHelperTests : TestBase
     {
@@ -23,10 +23,10 @@ namespace Spatial.Tests
 
         public GeoFileHelperTests()
         {
-            geoFile = base.GetXMLData<GPXFile>("GPXFiles/HalfMarathon.gpx").ToGeoFile();
+            geoFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx").ToGeoFile();
             geoDistance = Math.Round(geoFile.CalculateTotalDistance() / 1000, 2);
 
-            geoTrackFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
+            geoTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
             geoTrackDistance = Math.Round(geoTrackFile.CalculateTotalDistance() / 1000, 2);
         }
 

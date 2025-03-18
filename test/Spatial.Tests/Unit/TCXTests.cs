@@ -6,7 +6,7 @@ using Spatial.Core.Helpers;
 using Spatial.Core.Common;
 using System.Text.Json;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
 	public class TCXTests : TestBase
 	{
@@ -14,7 +14,7 @@ namespace Spatial.Tests
 
 		public TCXTests()
 		{
-			tcxTrackFile = base.GetXMLData<TCXFile>("TCXFiles/HalfMarathon.tcx");
+			tcxTrackFile = GetXMLData<TCXFile>("Data/TCXFiles/HalfMarathon.tcx");
 		}
 
 		[Fact]
@@ -32,7 +32,7 @@ namespace Spatial.Tests
 			point.AltitudeMeters = 3.0D;
 			point.Time = DateTime.UtcNow.ToString();
 
-			TCXTrackPoint cloned = JsonSerializer.Deserialize<TCXTrackPoint>(JsonSerializer.Serialize<TCXTrackPoint>(point, Shared.SerialiserOptions), Shared.SerialiserOptions); // Serialise and then deserialise the object to break the references to new objects
+			TCXTrackPoint cloned = JsonSerializer.Deserialize<TCXTrackPoint>(JsonSerializer.Serialize(point, Shared.SerialiserOptions), Shared.SerialiserOptions); // Serialise and then deserialise the object to break the references to new objects
 
 			// ASSERT
 			cloned.Position.LatitudeDegrees.Should().Be(point.Position.LatitudeDegrees);
@@ -44,9 +44,9 @@ namespace Spatial.Tests
 		[Fact]
 		public void Track_Compare_ToGeoFile_Conversion()
 		{
-			// ARRANGE
-			Int32 origionalCount = 0;
-			Int32 transformedCount = 0;
+            // ARRANGE
+            int origionalCount = 0;
+            int transformedCount = 0;
 
 			// ACT
 			origionalCount = tcxTrackFile.Activities.Activity[0].ToCoords().Count; // Count of origional
@@ -59,15 +59,15 @@ namespace Spatial.Tests
 		[Fact]
 		public void Track_Compare_FromGeoFile_Conversion()
 		{
-			// ARRANGE
-			Int32 transformedCount = 0;
+            // ARRANGE
+            int transformedCount = 0;
 			GeoFile geoFile = tcxTrackFile.ToGeoFile();
-			Int32 origionalCount = geoFile.Routes[0].Points.Count;
+            int origionalCount = geoFile.Routes[0].Points.Count;
 			TCXFile tcxFile = new TCXFile();
 
-			// ACT
-			Boolean success = tcxFile.FromGeoFile(geoFile);
-			Double totalDistance = geoFile.Routes[0].Points.CalculateTotalDistance();
+            // ACT
+            bool success = tcxFile.FromGeoFile(geoFile);
+            double totalDistance = geoFile.Routes[0].Points.CalculateTotalDistance();
 			transformedCount = tcxFile.Activities.Activity[0].Laps[0].Track.TrackPoints.Count; // Count of transformed track
 
 			// ASSERT

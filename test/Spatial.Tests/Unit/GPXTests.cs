@@ -5,7 +5,7 @@ using Xunit;
 using Spatial.Core.Common;
 using System.Text.Json;
 
-namespace Spatial.Tests
+namespace Spatial.Core.Tests.Unit
 {
     public class GPXTests : TestBase
     {
@@ -13,7 +13,7 @@ namespace Spatial.Tests
 
         public GPXTests()
         {
-            gpxTrackFile = base.GetXMLData<GPXFile>("GPXFiles/GPXRouteOnly.gpx");
+            gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/GPXRouteOnly.gpx");
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace Spatial.Tests
 			point.Longitude = 2.0M;
 			point.Elevation = 3.0M;
 			point.Time = DateTime.UtcNow.ToString();
-			GPXPoint cloned = JsonSerializer.Deserialize<GPXPoint>(JsonSerializer.Serialize<GPXPoint>(point, Shared.SerialiserOptions), Shared.SerialiserOptions); // Serialise and then deserialise the object to break the references to new objects
+			GPXPoint cloned = JsonSerializer.Deserialize<GPXPoint>(JsonSerializer.Serialize(point, Shared.SerialiserOptions), Shared.SerialiserOptions); // Serialise and then deserialise the object to break the references to new objects
 
 			// ASSERT
             cloned.Latitude.Should().Be(point.Latitude);
@@ -40,8 +40,8 @@ namespace Spatial.Tests
         public void Track_Compare_ToGeoFile_Conversion()
         {
             // ARRANGE
-            Int32 origionalCount = 0;
-            Int32 transformedCount = 0;
+            int origionalCount = 0;
+            int transformedCount = 0;
 
             // ACT
             origionalCount = gpxTrackFile.Tracks[0].TrackSegments[0].TrackPoints.Count; // Count of origional
@@ -55,13 +55,13 @@ namespace Spatial.Tests
         public void Track_Compare_FromGeoFile_Conversion()
         {
             // ARRANGE
-            Int32 transformedCount = 0;
+            int transformedCount = 0;
             GeoFile geoFile = gpxTrackFile.ToGeoFile();
-            Int32 origionalCount = geoFile.Routes[0].Points.Count;
+            int origionalCount = geoFile.Routes[0].Points.Count;
             GPXFile gpxFile = new GPXFile();
 
             // ACT
-            Boolean success = gpxFile.FromGeoFile(geoFile);
+            bool success = gpxFile.FromGeoFile(geoFile);
             transformedCount = gpxFile.Routes[0].RoutePoints.Count; // Count of transformed track
 
             // ASSERT
