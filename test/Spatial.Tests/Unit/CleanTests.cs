@@ -10,18 +10,15 @@ namespace Spatial.Core.Tests.Unit
 {
     public class CleanTests : TestBase
     {
-        private readonly GeoFile trackFile;
-
         public CleanTests()
         {
-            trackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx").ToGeoFile();
         }
 
         [Fact]
         public void Remove_Not_Moving_Time()
         {
             // ARRANGE
-            List<GeoCoordinateExtended> points = trackFile.Routes[0].Points;
+            List<GeoCoordinateExtended> points = geoTrackFile.Routes[0].Points;
             TimeSpan tolerenceAmount = new TimeSpan(0, 0, 2); // 2 second tolerence each way on result
             TimeSpan movingTime = points.TotalTime(TimeCalculationType.MovingTime); // Work out the moving time of the track
             TimeSpan tolerenceLower = movingTime.Subtract(tolerenceAmount); // lower tolerence bound

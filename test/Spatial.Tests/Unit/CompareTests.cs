@@ -9,14 +9,8 @@ namespace Spatial.Core.Tests.Unit
 {
     public class CompareTests : TestBase
     {
-        // Same data in different formats
-        private readonly TCXFile tcxTrackFile;
-        private readonly GPXFile gpxTrackFile;
-
-        public CompareTests()
+        public CompareTests() : base()
         {
-            tcxTrackFile = GetXMLData<TCXFile>("Data/TCXFiles/HalfMarathon.tcx");
-            gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx");
         }
 
         [Fact]

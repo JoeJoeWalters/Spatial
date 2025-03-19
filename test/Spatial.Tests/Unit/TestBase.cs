@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
 
 namespace Spatial.Core.Tests.Unit
@@ -11,12 +12,31 @@ namespace Spatial.Core.Tests.Unit
         public readonly double HalfMarathonMovingTime = 124.0; // Moving time in minutes for the half marathon
 		public readonly double HalfMarathonDistance = 21.37D; // Distance of the half marathon in km
 
-		/// <summary>
-		/// Load data from an embedded resource to use for testing
-		/// </summary>
-		/// <param name="path"></param>
-		/// <returns></returns>
-		public string GetEmbeddedResource(string path)
+        internal readonly GeoFile geoTrackFile;
+        internal readonly GeoFile geoFile;
+        internal readonly GeoFile geoCompare1;
+        internal readonly GeoFile geoCompare2;
+
+        internal readonly TCXFile tcxTrackFile;
+        internal readonly GPXFile gpxTrackFile;
+
+        public TestBase()
+        {
+            geoTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
+            geoFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx").ToGeoFile();
+            geoCompare1 = GetXMLData<GPXFile>("Data/GPXFiles/Compare1.gpx").ToGeoFile();
+            geoCompare2 = GetXMLData<GPXFile>("Data/GPXFiles/Compare2.gpx").ToGeoFile();
+
+            tcxTrackFile = GetXMLData<TCXFile>("Data/TCXFiles/HalfMarathon.tcx");
+            gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx");
+        }
+
+        /// <summary>
+        /// Load data from an embedded resource to use for testing
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public string GetEmbeddedResource(string path)
         {
             // Get the current assembly information
             var assembly = typeof(TestBase).GetTypeInfo().Assembly;

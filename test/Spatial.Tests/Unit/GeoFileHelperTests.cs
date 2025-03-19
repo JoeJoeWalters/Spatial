@@ -21,7 +21,7 @@ namespace Spatial.Core.Tests.Unit
         private readonly GeoFile geoTrackFile;
         private readonly double geoTrackDistance;
 
-        public GeoFileHelperTests()
+        public GeoFileHelperTests() : base()
         {
             geoFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx").ToGeoFile();
             geoDistance = Math.Round(geoFile.CalculateTotalDistance() / 1000, 2);

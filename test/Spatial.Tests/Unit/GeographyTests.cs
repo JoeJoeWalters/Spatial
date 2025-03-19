@@ -11,17 +11,8 @@ namespace Spatial.Core.Tests.Unit
 {
 	public class GeographyTests : TestBase
 	{
-		private readonly GeoFile geoTrackFile;
-		private readonly GeoFile geoFile;
-		private readonly GeoFile geoCompare1;
-		private readonly GeoFile geoCompare2;
-
-		public GeographyTests()
+		public GeographyTests() : base()
 		{
-			geoTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
-			geoFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx").ToGeoFile();
-			geoCompare1 = GetXMLData<GPXFile>("Data/GPXFiles/Compare1.gpx").ToGeoFile();
-			geoCompare2 = GetXMLData<GPXFile>("Data/GPXFiles/Compare2.gpx").ToGeoFile();
 		}
 
 		[Fact]

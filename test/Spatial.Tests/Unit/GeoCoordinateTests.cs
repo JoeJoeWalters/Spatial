@@ -20,7 +20,7 @@ namespace Spatial.Core.Tests.Unit
     /// </summary>
     public class GeoCoordinateTests
     {
-        public GeoCoordinateTests()
+        public GeoCoordinateTests() : base()
         {
         }
 
