@@ -245,21 +245,22 @@ namespace Spatial.Core.Helpers
         /// <param name="points">The array of coordinates to check against</param>
         /// <param name="targetDistance">The target distance in meters to extract the quickest section for</param>
         /// <returns></returns>
-        public static List<GeoCoordinateExtended> Fastest(this List<GeoCoordinateExtended> trackList, double targetDistance)
+        public static List<GeoCoordinateExtended> Fastest(this List<GeoCoordinateExtended> trackList, double targetDistance, bool removeNotMoving)
         {
+            List<GeoCoordinateExtended> onlyMoving = (removeNotMoving ? trackList.RemoveNotMoving() : trackList).CalculateSpeeds();
             TimeSpan quickestTime = TimeSpan.MaxValue;
             int startIndex = 0;
             int endIndex = 0;
 
-            for (int start = 0; start < trackList.Count; start++)
+            for (int start = 0; start < onlyMoving.Count; start++)
             {
                 double distance = 0.0;
-                for (int end = start + 1; end < trackList.Count; end++)
+                for (int end = start + 1; end < onlyMoving.Count; end++)
                 {
-                    distance += trackList[end].GetDistanceTo(trackList[end - 1]);
+                    distance += onlyMoving[end].GetDistanceTo(onlyMoving[end - 1]);
                     if (distance >= targetDistance)
                     {
-                        TimeSpan duration = trackList[end].Time - trackList[start].Time;
+                        TimeSpan duration = onlyMoving[end].Time - onlyMoving[start].Time;
                         if (duration < quickestTime)
                         {
                             quickestTime = duration;
@@ -271,7 +272,7 @@ namespace Spatial.Core.Helpers
                 }
             }
 
-            return trackList.GetRange(startIndex, endIndex - startIndex + 1);
+            return onlyMoving.GetRange(startIndex, endIndex - startIndex + 1);
         }
     }
 }

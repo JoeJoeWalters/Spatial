@@ -21,7 +21,7 @@ namespace Spatial.Core.Tests.Unit
             List<GeoCoordinateExtended> result;
 
             // ACT
-            result = trackPoints.Fastest(1000.0);
+            result = trackPoints.Fastest(1000.0, true); // Get the fastest kilometer
 
             // ASSERT
             result.Count.Should().NotBe(0);
