@@ -4,8 +4,10 @@ using Spatial.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
+using System.Transactions;
 
 namespace Spatial.Core.Helpers
 {
@@ -247,32 +249,31 @@ namespace Spatial.Core.Helpers
         /// <returns></returns>
         public static List<GeoCoordinateExtended> Fastest(this List<GeoCoordinateExtended> trackList, double targetDistance, bool removeNotMoving)
         {
-            List<GeoCoordinateExtended> processedPoints = (removeNotMoving ? trackList.RemoveNotMoving() : trackList).CalculateSpeeds();
-            TimeSpan quickestTime = TimeSpan.MaxValue;
-            int startIndex = 0;
-            int endIndex = 0;
+            List<GeoCoordinateExtended> result = new List<GeoCoordinateExtended>();
+            double shortest = double.MaxValue;
 
-            for (int start = 0; start < processedPoints.Count; start++)
+            for (int start = 0; start < trackList.Count; start++)
             {
                 double distance = 0.0;
-                for (int end = start + 1; end < processedPoints.Count; end++)
+                double speed = 0.0;
+                for (int pointCount = start + 1; pointCount < trackList.Count; pointCount++)
                 {
-                    distance += processedPoints[end].GetDistanceTo(processedPoints[end - 1]);
-                    if (distance >= targetDistance)
+                    double pointDistance = trackList[pointCount - 1].GetDistanceTo(trackList[pointCount]);    
+                    distance += pointDistance;
+                    speed += trackList[pointCount].Speed;
+                    if (distance > targetDistance)
                     {
-                        TimeSpan duration = processedPoints[end].Time - processedPoints[start].Time;
-                        if (duration < quickestTime)
+                        if (speed < shortest)
                         {
-                            quickestTime = duration;
-                            startIndex = start;
-                            endIndex = end;
+                            shortest = speed;
+                            result = trackList.GetRange(start, (pointCount - start) + 1);
                         }
                         break;
                     }
                 }
             }
 
-            return processedPoints.GetRange(startIndex, endIndex - startIndex + 1);
+            return result;
         }
     }
 }
