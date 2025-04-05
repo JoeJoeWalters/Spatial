@@ -20,7 +20,7 @@ namespace Spatial.Core.Tests.Unit
             List<GeoCoordinateExtended> trackPoints = geoFile.Routes[0].Points;
             List<GeoCoordinateExtended> result;
             TimeSpan timeDifference;
-            TimeSpan minimumTime = new TimeSpan(TimeSpan.TicksPerSecond * 60 * 8); // 4 minutes (I can't run faster than that)
+            TimeSpan minimumTime = new TimeSpan(TimeSpan.TicksPerSecond * 60 * 8); // 8 minutes (I can't run faster than that)
 
             // ACT
             result = trackPoints.Fastest(1609.34, true); // Get the fastest mile

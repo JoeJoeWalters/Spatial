@@ -251,6 +251,7 @@ namespace Spatial.Core.Helpers
         {
             List<GeoCoordinateExtended> result = new List<GeoCoordinateExtended>();
             double shortest = double.MaxValue;
+            TimeSpan timeCheck = TimeSpan.MaxValue;
 
             for (int start = 0; start < trackList.Count; start++)
             {
@@ -263,10 +264,16 @@ namespace Spatial.Core.Helpers
                     speed += trackList[pointCount].Speed;
                     if (distance > targetDistance)
                     {
-                        if (speed < shortest)
+                        if (speed < shortest) // Seperate check as distance and speed could have a break between to end the loop
                         {
                             shortest = speed;
-                            result = trackList.GetRange(start, (pointCount - start) + 1);
+                            TimeSpan spanCheck = trackList[pointCount].Time - trackList[start].Time;
+                            if (spanCheck < timeCheck)
+                            {
+                                timeCheck = spanCheck;
+                                result = trackList.GetRange(start, (pointCount - start) + 1);
+                                Debug.WriteLine($"{speed} {distance} {spanCheck}");
+                            }
                         }
                         break;
                     }
