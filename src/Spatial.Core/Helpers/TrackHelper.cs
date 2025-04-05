@@ -272,7 +272,7 @@ namespace Spatial.Core.Helpers
                             {
                                 timeCheck = spanCheck;
                                 result = trackList.GetRange(start, (pointCount - start) + 1);
-                                Debug.WriteLine($"{speed} {distance} {spanCheck}");
+                                //Debug.WriteLine($"{speed} {distance} {spanCheck}");
                             }
                         }
                         break;
