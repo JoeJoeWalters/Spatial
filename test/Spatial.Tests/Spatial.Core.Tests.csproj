@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Component\**" />
+    <EmbeddedResource Remove="Component\**" />
+    <None Remove="Component\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="7.2.0" />
     <PackageReference Include="LightBDD.XUnit2" Version="3.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
@@ -37,10 +43,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Spatial.Core\Spatial.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Component\" />
   </ItemGroup>
 
 </Project>

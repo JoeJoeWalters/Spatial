@@ -240,36 +240,38 @@ namespace Spatial.Core.Helpers
         }
 
         /// <summary>
-        /// Find the interpolated distances for a given distance in the track data
-        /// e.g all timespans for a 1 mile distance (so you can show fastest and slowest speeds over a distance)
+        /// Get the fastest section of a track for a given distance
         /// </summary>
-        /// <param name="points"></param>
+        /// <param name="points">The array of coordinates to check against</param>
+        /// <param name="targetDistance">The target distance in meters to extract the quickest section for</param>
         /// <returns></returns>
-        /*
-        public static List<TimeSpan> ExtractedDistances(this List<GeoCoordinateExtended> points, double overMeters)
+        public static List<GeoCoordinateExtended> Fastest(this List<GeoCoordinateExtended> trackList, double targetDistance)
         {
-            List<TimeSpan> distances = new List<TimeSpan>();
-        
-            // Loop each point in the track to the end of the track and include only the distances where we exceed the given requested length in meters
-            for (var coordId = 0; coordId < points.Count; coordId++)
+            TimeSpan quickestTime = TimeSpan.MaxValue;
+            int startIndex = 0;
+            int endIndex = 0;
+
+            for (int start = 0; start < trackList.Count; start++)
             {
-                var coord2Id = coordId + 1;
-                double totalDistance = 0D;
-                while (coord2Id < points.Count)
-                { 
-                    totalDistance += points[coord2Id].GetDistanceTo(points[coord2Id - 1]);
-                    if (totalDistance <= overMeters)
+                double distance = 0.0;
+                for (int end = start + 1; end < trackList.Count; end++)
+                {
+                    distance += trackList[end].GetDistanceTo(trackList[end - 1]);
+                    if (distance >= targetDistance)
                     {
-                        distances.Add(points[coord2Id].Time - points[coordId].Time);
-                        coord2Id++;
-                    }
-                    else
+                        TimeSpan duration = trackList[end].Time - trackList[start].Time;
+                        if (duration < quickestTime)
+                        {
+                            quickestTime = duration;
+                            startIndex = start;
+                            endIndex = end;
+                        }
                         break;
+                    }
                 }
             }
 
-            return distances;
+            return trackList.GetRange(startIndex, endIndex - startIndex + 1);
         }
-        */
     }
 }
