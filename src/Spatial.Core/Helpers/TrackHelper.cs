@@ -247,20 +247,20 @@ namespace Spatial.Core.Helpers
         /// <returns></returns>
         public static List<GeoCoordinateExtended> Fastest(this List<GeoCoordinateExtended> trackList, double targetDistance, bool removeNotMoving)
         {
-            List<GeoCoordinateExtended> onlyMoving = (removeNotMoving ? trackList.RemoveNotMoving() : trackList).CalculateSpeeds();
+            List<GeoCoordinateExtended> processedPoints = (removeNotMoving ? trackList.RemoveNotMoving() : trackList).CalculateSpeeds();
             TimeSpan quickestTime = TimeSpan.MaxValue;
             int startIndex = 0;
             int endIndex = 0;
 
-            for (int start = 0; start < onlyMoving.Count; start++)
+            for (int start = 0; start < processedPoints.Count; start++)
             {
                 double distance = 0.0;
-                for (int end = start + 1; end < onlyMoving.Count; end++)
+                for (int end = start + 1; end < processedPoints.Count; end++)
                 {
-                    distance += onlyMoving[end].GetDistanceTo(onlyMoving[end - 1]);
+                    distance += processedPoints[end].GetDistanceTo(processedPoints[end - 1]);
                     if (distance >= targetDistance)
                     {
-                        TimeSpan duration = onlyMoving[end].Time - onlyMoving[start].Time;
+                        TimeSpan duration = processedPoints[end].Time - processedPoints[start].Time;
                         if (duration < quickestTime)
                         {
                             quickestTime = duration;
@@ -272,7 +272,7 @@ namespace Spatial.Core.Helpers
                 }
             }
 
-            return onlyMoving.GetRange(startIndex, endIndex - startIndex + 1);
+            return processedPoints.GetRange(startIndex, endIndex - startIndex + 1);
         }
     }
 }
