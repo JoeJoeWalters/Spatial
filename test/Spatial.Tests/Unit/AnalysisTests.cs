@@ -19,12 +19,16 @@ namespace Spatial.Core.Tests.Unit
             // ARRANGE
             List<GeoCoordinateExtended> trackPoints = geoFile.Routes[0].Points;
             List<GeoCoordinateExtended> result;
+            TimeSpan timeDifference;
+            TimeSpan minimumTime = new TimeSpan(TimeSpan.TicksPerSecond * 60 * 4); // 4 minutes (I can't run faster than that)
 
             // ACT
             result = trackPoints.Fastest(1000.0, true); // Get the fastest kilometer
+            timeDifference = result[result.Count - 1].Time - result[0].Time;
 
             // ASSERT
             result.Count.Should().NotBe(0);
+            timeDifference.Should().BeGreaterOrEqualTo(minimumTime);
         }
     }
 }
