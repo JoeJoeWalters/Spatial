@@ -34,5 +34,21 @@ namespace Spatial.Core.Tests.Unit
             timeDifference.Should().BeGreaterOrEqualTo(minimumTime);
             actualDistance.Should().BeGreaterOrEqualTo(requiredDistance);
         }
+
+        [Fact]
+        public void Get_Sections_From_TrackData()
+        {
+            // ARRANGE
+            List<GeoCoordinateExtended> trackPoints = geoFile.Routes[0].Points;
+            List<List<GeoCoordinateExtended>> result;
+            double sectionSize = 1609.34; // 1 Mile secrtions, for a half marathaon we expect 13.11 sections (14)
+            int totalSections = (int)(float)(geoFile.CalculateTotalDistance() / sectionSize); // Minimum amount of sections, there is likley to be one more partial section
+
+            // ACT
+            result = trackPoints.Sections(sectionSize);
+
+            // ASSERT
+            result.Count.Should().BeGreaterThanOrEqualTo(totalSections);
+        }
     }
 }

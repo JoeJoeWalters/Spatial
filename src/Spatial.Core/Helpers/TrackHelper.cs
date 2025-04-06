@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Transactions;
 
@@ -259,7 +260,7 @@ namespace Spatial.Core.Helpers
                 double speed = 0.0;
                 for (int pointCount = start + 1; pointCount < trackList.Count; pointCount++)
                 {
-                    double pointDistance = trackList[pointCount - 1].GetDistanceTo(trackList[pointCount]);    
+                    double pointDistance = trackList[pointCount - 1].GetDistanceTo(trackList[pointCount]);
                     distance += pointDistance;
                     speed += trackList[pointCount].Speed;
                     if (distance > targetDistance)
@@ -272,13 +273,41 @@ namespace Spatial.Core.Helpers
                             {
                                 timeCheck = spanCheck;
                                 result = trackList.GetRange(start, (pointCount - start) + 1);
-                                //Debug.WriteLine($"{speed} {distance} {spanCheck}");
                             }
                         }
                         break;
                     }
                 }
             }
+
+            return result;
+        }
+
+        public static List<List<GeoCoordinateExtended>> Sections(this List<GeoCoordinateExtended> trackList, double sectionSize)
+        {
+            List<List<GeoCoordinateExtended>> result = new List<List<GeoCoordinateExtended>>();
+            List<GeoCoordinateExtended> current = new List<GeoCoordinateExtended>();
+
+            double distance = 0.0;
+            for (int start = 1; start < trackList.Count; start++)
+            {
+                double pointDistance = trackList[start - 1].GetDistanceTo(trackList[start]);
+                distance += pointDistance;
+                if (distance > sectionSize)
+                {
+                    distance = 0;
+                    result.Add(current);
+                    current = new List<GeoCoordinateExtended>();
+                }
+                else
+                {
+                    current.Add(trackList[start - 1].Clone());
+                }
+            }
+
+            // Anything left over?
+            if (current.Count > 0)
+                result.Add(current);
 
             return result;
         }
