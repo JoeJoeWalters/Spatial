@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using System;
-using System.Collections.Generic;
 using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Spatial.Core.Tests.Unit
@@ -31,8 +31,8 @@ namespace Spatial.Core.Tests.Unit
 
             // ASSERT
             result.Count.Should().NotBe(0);
-            timeDifference.Should().BeGreaterOrEqualTo(minimumTime);
-            actualDistance.Should().BeGreaterOrEqualTo(requiredDistance);
+            timeDifference.Should().BeGreaterThanOrEqualTo(minimumTime);
+            actualDistance.Should().BeGreaterThanOrEqualTo(requiredDistance);
         }
 
         [Fact]

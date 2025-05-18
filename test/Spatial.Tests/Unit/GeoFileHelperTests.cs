@@ -1,15 +1,9 @@
-﻿using Spatial.Core.Helpers;
+﻿using FluentAssertions;
 using Spatial.Core.Documents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using FluentAssertions;
-using System.Diagnostics;
-using Spatial.Core.Common;
+using Spatial.Core.Helpers;
 using Spatial.Core.Types;
+using System;
+using Xunit;
 
 namespace Spatial.Core.Tests.Unit
 {
