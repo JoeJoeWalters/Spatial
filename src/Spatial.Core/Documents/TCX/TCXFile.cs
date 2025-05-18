@@ -36,7 +36,7 @@ namespace Spatial.Core.Documents
             GeoFile result = new GeoFile();
 
             // Transform the activity to the route information
-            result.Routes = this.Activities.Activity.Select(activity => new GeoFileRoute() { Name = activity.Id, Points = activity.ToCoords() }).ToList();
+            result.Routes = this.Activities.Activity.Select(activity => new GeoFileRoute() { Name = activity.Id, Points = activity.ToCoords().CalculateSpeeds() }).ToList();
 
             return result;
         }
@@ -99,20 +99,7 @@ namespace Spatial.Core.Documents
                     }).ToList()
 
                 };
-            /*
-            file.Routes
-            .Select(rt =>
-                new TCXActivities()
-                {
 
-                    RoutePoints = rt.Points
-                        .Where(pt => !pt.BadCoordinate && !pt.IsUnknown)
-                        .Select(pt =>
-                            GPXWaypoint.FromCoord(pt)
-                        ).ToList()
-                })
-            .ToList();
-            */
             return true;
         }
     }

@@ -4,8 +4,11 @@ using Spatial.Core.Types;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Transactions;
 
 namespace Spatial.Core.Helpers
 {
@@ -240,36 +243,73 @@ namespace Spatial.Core.Helpers
         }
 
         /// <summary>
-        /// Find the interpolated distances for a given distance in the track data
-        /// e.g all timespans for a 1 mile distance (so you can show fastest and slowest speeds over a distance)
+        /// Get the fastest section of a track for a given distance
         /// </summary>
-        /// <param name="points"></param>
+        /// <param name="points">The array of coordinates to check against</param>
+        /// <param name="targetDistance">The target distance in meters to extract the quickest section for</param>
         /// <returns></returns>
-        /*
-        public static List<TimeSpan> ExtractedDistances(this List<GeoCoordinateExtended> points, double overMeters)
+        public static List<GeoCoordinateExtended> Fastest(this List<GeoCoordinateExtended> trackList, double targetDistance, bool removeNotMoving)
         {
-            List<TimeSpan> distances = new List<TimeSpan>();
-        
-            // Loop each point in the track to the end of the track and include only the distances where we exceed the given requested length in meters
-            for (var coordId = 0; coordId < points.Count; coordId++)
+            List<GeoCoordinateExtended> result = new List<GeoCoordinateExtended>();
+            double shortest = double.MaxValue;
+            TimeSpan timeCheck = TimeSpan.MaxValue;
+
+            for (int start = 0; start < trackList.Count; start++)
             {
-                var coord2Id = coordId + 1;
-                double totalDistance = 0D;
-                while (coord2Id < points.Count)
-                { 
-                    totalDistance += points[coord2Id].GetDistanceTo(points[coord2Id - 1]);
-                    if (totalDistance <= overMeters)
+                double distance = 0.0;
+                double speed = 0.0;
+                for (int pointCount = start + 1; pointCount < trackList.Count; pointCount++)
+                {
+                    double pointDistance = trackList[pointCount - 1].GetDistanceTo(trackList[pointCount]);
+                    distance += pointDistance;
+                    speed += trackList[pointCount].Speed;
+                    if (distance > targetDistance)
                     {
-                        distances.Add(points[coord2Id].Time - points[coordId].Time);
-                        coord2Id++;
-                    }
-                    else
+                        if (speed < shortest) // Seperate check as distance and speed could have a break between to end the loop
+                        {
+                            shortest = speed;
+                            TimeSpan spanCheck = trackList[pointCount].Time - trackList[start].Time;
+                            if (spanCheck < timeCheck)
+                            {
+                                timeCheck = spanCheck;
+                                result = trackList.GetRange(start, (pointCount - start) + 1);
+                            }
+                        }
                         break;
+                    }
                 }
             }
 
-            return distances;
+            return result;
         }
-        */
+
+        public static List<List<GeoCoordinateExtended>> Sections(this List<GeoCoordinateExtended> trackList, double sectionSize)
+        {
+            List<List<GeoCoordinateExtended>> result = new List<List<GeoCoordinateExtended>>();
+            List<GeoCoordinateExtended> current = new List<GeoCoordinateExtended>();
+
+            double distance = 0.0;
+            for (int start = 1; start < trackList.Count; start++)
+            {
+                double pointDistance = trackList[start - 1].GetDistanceTo(trackList[start]);
+                distance += pointDistance;
+                if (distance > sectionSize)
+                {
+                    distance = 0;
+                    result.Add(current);
+                    current = new List<GeoCoordinateExtended>();
+                }
+                else
+                {
+                    current.Add(trackList[start - 1].Clone());
+                }
+            }
+
+            // Anything left over?
+            if (current.Count > 0)
+                result.Add(current);
+
+            return result;
+        }
     }
 }

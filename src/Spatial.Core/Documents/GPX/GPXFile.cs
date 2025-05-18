@@ -1,4 +1,5 @@
 ﻿using Spatial.Core.Common;
+using Spatial.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,7 @@ namespace Spatial.Core.Documents
                 new GeoFileRoute()
                 {
                     Name = track.Name,
-                    Points = track.ToCoords()
+                    Points = track.ToCoords().CalculateSpeeds()
                 }).ToList());
 
             return result;
