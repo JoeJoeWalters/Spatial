@@ -29,8 +29,8 @@ namespace Spatial.Core.Tests.Unit
             TimeSpan cleanedTime = cleanedPoints.TotalTime(TimeCalculationType.ActualTime); // Calculate the new actual time of the track
 
             // ASSERT
-            cleanedTime.Should().BeGreaterOrEqualTo(tolerenceLower);
-            cleanedTime.Should().BeLessOrEqualTo(tolerenceUpper);
+            cleanedTime.Should().BeGreaterThanOrEqualTo(tolerenceLower);
+            cleanedTime.Should().BeLessThanOrEqualTo(tolerenceUpper);
         }
 
     }
