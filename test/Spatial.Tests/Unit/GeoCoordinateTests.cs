@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using Spatial.Core.Common;
 using System;
 using System.Collections.Generic;

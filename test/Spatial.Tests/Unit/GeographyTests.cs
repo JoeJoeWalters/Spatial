@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Spatial.Core.Common;
 using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
