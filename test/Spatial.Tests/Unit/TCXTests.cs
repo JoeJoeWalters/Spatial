@@ -1,20 +1,17 @@
 using AwesomeAssertions;
-using System;
-using Spatial.Core.Documents;
-using Xunit;
-using Spatial.Core.Helpers;
 using Spatial.Core.Common;
+using Spatial.Core.Documents;
+using Spatial.Core.Helpers;
+using System;
 using System.Text.Json;
+using Xunit;
 
 namespace Spatial.Core.Tests.Unit
 {
 	public class TCXTests : TestBase
 	{
-		private readonly TCXFile tcxTrackFile;
-
 		public TCXTests()
 		{
-			tcxTrackFile = GetXMLData<TCXFile>("Data/TCXFiles/HalfMarathon.tcx");
 		}
 
 		[Fact]

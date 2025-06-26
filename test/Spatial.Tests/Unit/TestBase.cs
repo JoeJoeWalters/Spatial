@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Spatial.Core.Documents;
+using Spatial.Core.Helpers;
+using System;
 using System.IO;
 using System.Reflection;
-using Spatial.Core.Documents;
-using Spatial.Core.Helpers;
 
 namespace Spatial.Core.Tests.Unit
 {
@@ -20,6 +20,9 @@ namespace Spatial.Core.Tests.Unit
         internal readonly TCXFile tcxTrackFile;
         internal readonly GPXFile gpxTrackFile;
 
+        internal readonly double geoDistance;
+        internal readonly double geoTrackDistance;
+
         public TestBase()
         {
             geoTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
@@ -29,6 +32,9 @@ namespace Spatial.Core.Tests.Unit
 
             tcxTrackFile = GetXMLData<TCXFile>("Data/TCXFiles/HalfMarathon.tcx");
             gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx");
+
+            geoDistance = Math.Round(geoFile.CalculateTotalDistance() / 1000, 2);
+            geoTrackDistance = Math.Round(geoTrackFile.CalculateTotalDistance() / 1000, 2);
         }
 
         /// <summary>
@@ -72,20 +78,13 @@ namespace Spatial.Core.Tests.Unit
         /// <returns>An object of the correct type</returns>
         public T GetXMLData<T>(string path)
         {
-            try
-            {
-                // Get a string representing the XML from the embedded resource
-                string data = GetEmbeddedResource(path);
-                if (data == null)
-                    throw new Exception("No data");
+            // Get a string representing the XML from the embedded resource
+            string data = GetEmbeddedResource(path);
+            if (data == null)
+                throw new Exception("No data");
 
-                // Use the base deserialise method to make sure any cleansing is done first
-                return XmlHelper.DeserialiseXML<T>(data);
-            }
-            catch(Exception ex)
-            {
-                throw;
-            }
+            // Use the base deserialise method to make sure any cleansing is done first
+            return XmlHelper.DeserialiseXML<T>(data);            
         }
     }
 }

@@ -9,19 +9,8 @@ namespace Spatial.Core.Tests.Unit
 {
     public class GeoFileHelperTests : TestBase
     {
-        private readonly GeoFile geoFile;
-        private readonly double geoDistance;
-
-        private readonly GeoFile geoTrackFile;
-        private readonly double geoTrackDistance;
-
         public GeoFileHelperTests() : base()
         {
-            geoFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx").ToGeoFile();
-            geoDistance = Math.Round(geoFile.CalculateTotalDistance() / 1000, 2);
-
-            geoTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/GPXRouteOnly.gpx").ToGeoFile();
-            geoTrackDistance = Math.Round(geoTrackFile.CalculateTotalDistance() / 1000, 2);
         }
 
         [Fact]

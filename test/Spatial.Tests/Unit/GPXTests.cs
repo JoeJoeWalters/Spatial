@@ -1,19 +1,16 @@
 using AwesomeAssertions;
-using System;
-using Spatial.Core.Documents;
-using Xunit;
 using Spatial.Core.Common;
+using Spatial.Core.Documents;
+using System;
 using System.Text.Json;
+using Xunit;
 
 namespace Spatial.Core.Tests.Unit
 {
     public class GPXTests : TestBase
     {
-        private readonly GPXFile gpxTrackFile;
-
         public GPXTests()
         {
-            gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/GPXRouteOnly.gpx");
         }
 
         [Fact]

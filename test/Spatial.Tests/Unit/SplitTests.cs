@@ -9,12 +9,8 @@ namespace Spatial.Core.Tests.Unit
 {
     public class SplitTests : TestBase
     {
-        // Same data in different formats
-        private readonly GPXFile gpxTrackFile;
-
         public SplitTests()
         {
-            gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx");
         }
 
         [Fact]
