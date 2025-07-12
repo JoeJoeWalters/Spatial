@@ -19,6 +19,7 @@ namespace Spatial.Core.Tests.Unit
 
         internal readonly TCXFile tcxTrackFile;
         internal readonly GPXFile gpxTrackFile;
+        internal readonly GPXFile gpxWithWaypoints;
 
         internal readonly double geoDistance;
         internal readonly double geoTrackDistance;
@@ -32,6 +33,8 @@ namespace Spatial.Core.Tests.Unit
 
             tcxTrackFile = GetXMLData<TCXFile>("Data/TCXFiles/HalfMarathon.tcx");
             gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx");
+
+            gpxWithWaypoints = GetXMLData<GPXFile>("Data/GPXFiles/FellsLoop.gpx");
 
             geoDistance = Math.Round(geoFile.CalculateTotalDistance() / 1000, 2);
             geoTrackDistance = Math.Round(geoTrackFile.CalculateTotalDistance() / 1000, 2);
@@ -82,6 +85,11 @@ namespace Spatial.Core.Tests.Unit
             string data = GetEmbeddedResource(path);
             if (data == null)
                 throw new Exception("No data");
+
+            // Quick workaround for GPX 1.0 to 1.1 upgrade as the two are compatible but the XMLRoot attribute doesn't support multuple namespaces
+#warning "TODO: Replace this with a more elegant solution"
+            if (data.Contains("http://www.topografix.com/GPX/1/0") && typeof(T) == typeof(GPXFile))
+                data = data.Replace("http://www.topografix.com/GPX/1/0", "http://www.topografix.com/GPX/1/1"); 
 
             // Use the base deserialise method to make sure any cleansing is done first
             return XmlHelper.DeserialiseXML<T>(data);            

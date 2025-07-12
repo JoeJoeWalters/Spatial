@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\GPXFiles\FellsLoop.gpx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AwesomeAssertions" Version="9.0.0" />
     <PackageReference Include="LightBDD.XUnit2" Version="3.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
@@ -30,6 +34,9 @@
     <EmbeddedResource Include="Data\GPXFiles\Bad.gpx" />
     <EmbeddedResource Include="Data\GPXFiles\Compare1.gpx" />
     <EmbeddedResource Include="Data\GPXFiles\Compare2.gpx" />
+    <EmbeddedResource Include="Data\GPXFiles\FellsLoop.gpx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Data\GPXFiles\GPXRouteOnly.gpx" />
     <EmbeddedResource Include="Data\GPXFiles\HalfMarathon.gpx" />
     <EmbeddedResource Include="Data\TCXFiles\HalfMarathon.tcx" />

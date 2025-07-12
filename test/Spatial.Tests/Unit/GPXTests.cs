@@ -14,6 +14,48 @@ namespace Spatial.Core.Tests.Unit
         }
 
         [Fact]
+        public void WaypointGPXDeserialise_Should_RetainData()
+        {
+            // ARRANGE
+
+            // ACT
+
+            // ASSERT
+            gpxWithWaypoints.Waypoints.Should().NotBeEmpty("GPX file should have at least one waypoint defined.");
+            gpxWithWaypoints.Waypoints[0].Time.Should().NotBeNullOrEmpty("GPX file should have a time defined for the first waypoint.");
+        }
+
+        [Fact]
+        public void TrackGPXDeserialise_Should_RetainData()
+        {
+            // ARRANGE
+
+            // ACT
+
+            // ASSERT
+            gpxTrackFile.Tracks.Should().NotBeEmpty("GPX file should have at least one track defined.");
+            gpxTrackFile.Tracks[0].TrackSegments.Should().NotBeEmpty("GPX file should have at least one track segment defined.");
+            gpxTrackFile.Tracks[0].TrackSegments[0].TrackPoints.Should().NotBeEmpty("GPX file should have at least one track point defined in the first track segment.");
+            gpxTrackFile.Tracks[0].TrackSegments[0].TrackPoints[0].Time.Should().NotBeNullOrEmpty("GPX file should have a time defined for the first track point.");
+        }
+
+        [Fact]
+        public void GPXRoute_Should_ConvertToListOfGeoCoordinates()
+        {
+            // ARRANGE
+            GPXRoute gpxRoute = gpxWithWaypoints.Routes[0]; // Get the first route from the GPX file
+
+            // ACT
+            var geoCoordinates = gpxRoute.ToCoords(); // Convert the GPX route to a list of GeoCoordinates
+
+            // ASSERT
+#warning "TODO: This may need attention as Microsoft's base Geocoordinate used doubles and GPX files are stated to use decimal although right now it's not an issue in terms of precision"
+            geoCoordinates.Should().NotBeEmpty("GPX route should convert to a non-empty list of GeoCoordinates.");
+            geoCoordinates[0].Latitude.Should().Be((double)gpxRoute.RoutePoints[0].Latitude, "The first GeoCoordinate's latitude should match the first GPX route point's latitude.");
+            geoCoordinates[0].Longitude.Should().Be((double)gpxRoute.RoutePoints[0].Longitude, "The first GeoCoordinate's longitude should match the first GPX route point's longitude.");
+        }
+
+        [Fact]
         public void GPXPoint_Compare_Setters()
         {
 			// ARRANGE
