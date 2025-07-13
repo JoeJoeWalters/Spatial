@@ -14,57 +14,31 @@ namespace Spatial.Core.Helpers
         public static GeoFile InfillPositions(this GeoFile file)
         {
             GeoFile clone = file.Clone();
-            foreach (var route in clone.Routes)
-            {
-                route.Points = route.Points.InfillPositions();
-            }
+            clone.Routes.ForEach(route => route.Points = route.Points.InfillPositions());
             return clone;
         }
 
         public static GeoFile CalculateSpeeds(this GeoFile file)
         {
             GeoFile clone = file.Clone();
-            foreach (var route in clone.Routes)
-            {
-                route.Points = route.Points.CalculateSpeeds();
-            }
+            clone.Routes.ForEach(route => route.Points = route.Points.CalculateSpeeds());
             return clone;
         }
 
         public static Double CalculateTotalDistance(this GeoFile file)
-        {
-            Double totalDistance = 0.0D;
-            foreach (var route in file.Routes)
-            {
-                totalDistance += route.Points.CalculateTotalDistance();
-            }
-            return totalDistance;
-        }
+            => file.Routes.Select(route => route.Points.CalculateTotalDistance()).Sum();
 
         public static TimeSpan TotalTime(this GeoFile file, TimeCalculationType timeCalculationType)
         {
-            Boolean isFirst = true;
-            TimeSpan totalTime = new TimeSpan();
-            foreach (var route in file.Routes)
-            {
-                TimeSpan thisTime = route.Points.TotalTime(timeCalculationType);
-                if (isFirst)
-                    totalTime = thisTime;
-                else
-                    totalTime.Add(thisTime);
-
-                isFirst = false;
-            }
+            TimeSpan totalTime = new TimeSpan(0,0,0);
+            file.Routes.ForEach(route => totalTime = totalTime.Add(route.Points.TotalTime(timeCalculationType)));
             return totalTime;
         }
 
         public static GeoFile RemoveNotMoving(this GeoFile file)
         {
             GeoFile clone = file.Clone();
-            foreach (var route in clone.Routes)
-            {
-                route.Points = route.Points.RemoveNotMoving();
-            }
+            clone.Routes.ForEach(route => route.Points = route.Points.RemoveNotMoving());
             return clone;
         }
 

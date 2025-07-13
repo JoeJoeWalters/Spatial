@@ -3,6 +3,7 @@ using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
 using Spatial.Core.Types;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Spatial.Core.Tests.Unit
@@ -79,6 +80,48 @@ namespace Spatial.Core.Tests.Unit
 
             // ASSERT
             processed.Should().BeEquivalentTo(geoTrackFile);
+        }
+
+        [Fact]
+        public void TotalTime_Should_BeSumOfAllRoutes()
+        {
+            // ARRANGE
+            DateTime now = DateTime.UtcNow;
+            DateTime last = now.AddMinutes(2);
+            Random random = new Random((int)now.Ticks); 
+
+            GeoFile multiRouteFile = new GeoFile
+            {
+                Name = "Multi Route File",
+                Author = "Test Author",
+                Routes = new List<GeoFileRoute>
+                {
+                    new GeoFileRoute
+                    {
+                        Name = "Route 1",
+                        Points = new List<GeoCoordinateExtended>
+                        {
+                            new GeoCoordinateExtended { Time = now, Latitude = 90 / random.Next(), Longitude = 90 / random.Next() },
+                            new GeoCoordinateExtended { Time = now.AddMinutes(1), Latitude = 90 / random.Next(), Longitude = 90 / random.Next() },
+                        }
+                    },
+                    new GeoFileRoute
+                    {
+                        Name = "Route 2",
+                        Points = new List<GeoCoordinateExtended>
+                        {
+                            new GeoCoordinateExtended { Time = last.AddMinutes(-1), Latitude = 90 / random.Next(), Longitude = 90 / random.Next() },
+                            new GeoCoordinateExtended { Time = last, Latitude = 90 / random.Next(), Longitude = 90 / random.Next() }
+                        }
+                    }
+                }
+            };
+
+            // ACT
+            TimeSpan diff = multiRouteFile.TotalTime(TimeCalculationType.ActualTime);
+            
+            // ASSERT
+            diff.Should().Be(last - now);
         }
     }
 }
