@@ -9,21 +9,13 @@ internal class Program
 
         builder.Services.AddCors();
 
-        /*
-        builder.Services.AddVersionedApiExplorer(
-            options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-        */
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(
             options =>
             {
                 options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-
+                
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
