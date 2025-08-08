@@ -1,4 +1,4 @@
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using System.Reflection;
 
 internal class Program
@@ -15,7 +15,7 @@ internal class Program
             options =>
             {
                 options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-                
+                /*
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
@@ -33,6 +33,7 @@ internal class Program
                         Url = new Uri("https://example.com/license")
                     }
                 });
+                */
 
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 string xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
