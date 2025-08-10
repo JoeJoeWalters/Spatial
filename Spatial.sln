@@ -22,7 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{9CA4C23C-D11C-4D6A-970B-EB69CE4E1896}"
 	ProjectSection(SolutionItems) = preProject
-		.github\codeql.yml = .github\codeql.yml
 		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
