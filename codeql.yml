@@ -105,7 +105,7 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
 
-    # Export SARIF results using CodeQL CLI
+    # Export SARIF results using CodeQL CLI      
     - name: Export SARIF Results
       run: |
         mkdir -p codeql-sarif
@@ -122,5 +122,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: codeql-results-${{ matrix.language }}
-        path: codeql-sarif/results-${{ matrix.language }}.sarif
+        path: /home/runner/work/Spatial/results/${{ matrix.language }}.sarif
         if-no-files-found: warn
