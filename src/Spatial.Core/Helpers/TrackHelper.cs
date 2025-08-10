@@ -5,24 +5,22 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Spatial.Documents;
-using Spatial.Types;
 using System.Net;
 using System.Text.Json;
 
 namespace Spatial.Core.Helpers
-{
+{ 
+    public enum TrackCompareMethods
+    {
+        Delta = 0,
+        KolmogorovSmirnov = 1,
+        AngularMovement = 2
+    }
+
     public static class TrackHelper
     {
         public static Double EarthRadius = 40010040D; // What is the earth's radius in meters
         public static Double LatitudeDistance = EarthRadius / 360.0D; // What is 1 degree of latitude
-
-        public enum TrackCompareMethods
-        {
-            Delta = 0,
-            KolmogorovSmirnov = 1,
-            AngularMovement = 2
-        }
 
         public static List<GeoCoordinateExtended> InfillPositions(this List<GeoCoordinateExtended> points)
         {
@@ -199,6 +197,8 @@ namespace Spatial.Core.Helpers
                         (1 / p1) * p2 :
                         (1 / p2) * p1;
 
+                    if (score < 0) score = 0; // Ensure the score is not negative
+
                     break;
 
                 case TrackCompareMethods.KolmogorovSmirnov:
@@ -249,18 +249,20 @@ namespace Spatial.Core.Helpers
         public static Double AngularValue(this List<GeoCoordinateExtended> points)
         {
             List<GeoCoordinateExtended> movingPoints = points.RemoveNotMoving();
+            Double distance = 0.0;
+            Double angle = 0.0;
 
             // Loop all points in the track and only count those that had speed (movement) between the two points
             var coordId = 1; // Start from the second point as the first will always have no speed (from another point) 
-            while (coordId <= points.Count - 1)
+            while (coordId < points.Count - 1)
             {
-                Double distance = points[coordId].GetDistanceTo(points[coordId + 1]);
-                Double angle = points[coordId].GetAngleTo(points[coordId + 1]);
+                distance += points[coordId].GetDistanceTo(points[coordId + 1]);
+                angle += points[coordId].GetAngleTo(points[coordId + 1]);
 
                 coordId++;
             }
 
-            return 0.0D;
+            return distance * angle;
         }
 
         /// <summary>
