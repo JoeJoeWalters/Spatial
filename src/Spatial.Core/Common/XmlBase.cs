@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
 
-namespace Spatial.Common
+namespace Spatial.Core.Common
 {
     public abstract class XmlBase
     {

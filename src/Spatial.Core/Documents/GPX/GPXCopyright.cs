@@ -1,8 +1,8 @@
-﻿using Spatial.Common;
+﻿using Spatial.Core.Common;
 using System;
 using System.Xml.Serialization;
 
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     /// <summary>
     /// Information about the copyright holder and any license governing use of this file. By linking to an appropriate license, you may place your data into the public domain or grant additional usage rights.

@@ -1,8 +1,8 @@
-﻿using Spatial.Common;
+﻿using Spatial.Core.Common;
 using System;
 using System.Xml.Serialization;
 
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     /// <summary>
     /// A geographic point with optional elevation and time. Available for use by other schemas.

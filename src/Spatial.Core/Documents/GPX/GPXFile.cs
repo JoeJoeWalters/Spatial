@@ -1,4 +1,5 @@
-﻿using Spatial.Common;
+﻿using Spatial.Core.Common;
+using Spatial.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Xml.Serialization;
 /// <summary>
 /// https://docs.microsoft.com/en-us/dotnet/standard/serialization/controlling-xml-serialization-using-attributes
 /// </summary>
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     /// <summary>
     /// Implementation of http://www.topografix.com/GPX/1/1/gpx.xsd
@@ -73,7 +74,7 @@ namespace Spatial.Documents
                 new GeoFileRoute()
                 {
                     Name = track.Name,
-                    Points = track.ToCoords()
+                    Points = track.ToCoords().CalculateSpeeds()
                 }).ToList());
 
             return result;

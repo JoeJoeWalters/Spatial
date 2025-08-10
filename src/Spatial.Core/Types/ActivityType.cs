@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Spatial.Types
+namespace Spatial.Core.Types
 {
     public enum ActivityType : Int32
     {

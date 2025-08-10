@@ -1,11 +1,11 @@
-﻿using Spatial.Common;
-using Spatial.Helpers;
+﻿using Spatial.Core.Common;
+using Spatial.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     /// <summary>
     /// Activity type with the Training element dropped as we only care about getting to the movement data

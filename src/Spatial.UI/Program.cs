@@ -1,4 +1,4 @@
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using System.Reflection;
 
 internal class Program
@@ -9,21 +9,13 @@ internal class Program
 
         builder.Services.AddCors();
 
-        /*
-        builder.Services.AddVersionedApiExplorer(
-            options =>
-            {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-        */
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(
             options =>
             {
                 options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-
+                /*
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
@@ -41,6 +33,7 @@ internal class Program
                         Url = new Uri("https://example.com/license")
                     }
                 });
+                */
 
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 string xmlFilePath = Path.Combine(AppContext.BaseDirectory, xmlFilename);

@@ -1,10 +1,10 @@
-﻿using Spatial.Common;
+﻿using Spatial.Core.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     /// <summary>
     /// rte represents route - an ordered list of waypoints representing a series of turn points leading to a destination.

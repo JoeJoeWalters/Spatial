@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <AssemblyName>Spatial.Core.Tests</AssemblyName>
+
+    <RootNamespace>Spatial.Core.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\GPXFiles\FellsLoop.gpx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AwesomeAssertions" Version="9.1.0" />
+    <PackageReference Include="LightBDD.XUnit2" Version="3.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\GPXFiles\Bad.gpx" />
+    <EmbeddedResource Include="Data\GPXFiles\Compare1.gpx" />
+    <EmbeddedResource Include="Data\GPXFiles\Compare2.gpx" />
+    <EmbeddedResource Include="Data\GPXFiles\FellsLoop.gpx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\GPXFiles\GPXRouteOnly.gpx" />
+    <EmbeddedResource Include="Data\GPXFiles\HalfMarathon.gpx" />
+    <EmbeddedResource Include="Data\TCXFiles\HalfMarathon.tcx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Spatial.Core\Spatial.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,8 +1,8 @@
-﻿using Spatial.Common;
+﻿using Spatial.Core.Common;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     public class TCXActivities : XmlBase
     {

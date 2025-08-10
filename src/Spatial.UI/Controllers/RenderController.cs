@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Spatial.Common;
-using Spatial.Documents;
+using Spatial.Core.Common;
+using Spatial.Core.Documents;
 using Spatial.RenderEngine;
 using System.Net;
 using System.Net.Http.Headers;

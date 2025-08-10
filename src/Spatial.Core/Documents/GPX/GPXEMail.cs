@@ -1,8 +1,8 @@
-﻿using Spatial.Common;
+﻿using Spatial.Core.Common;
 using System;
 using System.Xml.Serialization;
 
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     /// <summary>
     /// An email address. Broken into two parts (id and domain) to help prevent email harvesting.

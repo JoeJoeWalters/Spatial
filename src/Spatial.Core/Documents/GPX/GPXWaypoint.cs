@@ -1,9 +1,9 @@
-﻿using Spatial.Common;
+﻿using Spatial.Core.Common;
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     /// <summary>
     /// wpt represents a waypoint, point of interest, or named feature on a map.
@@ -18,7 +18,7 @@ namespace Spatial.Documents
         public Decimal Elevation { get; set; } = 0.0M;
 
         /// <summary>
-        /// Creation/modification timestamp for element. Date and time in are in Univeral Coordinated Time (UTC), not local time! Conforms to ISO 8601 specification for date/time representation. Fractional seconds are allowed for millisecond timing in tracklogs.
+        /// Creation/modification timestamp for element. Date and time in are in Universal Coordinated Time (UTC), not local time! Conforms to ISO 8601 specification for date/time representation. Fractional seconds are allowed for millisecond timing in tracklogs.
         /// </summary>
         [XmlIgnore]
         public DateTime CreatedDateTime = DateTime.MinValue;

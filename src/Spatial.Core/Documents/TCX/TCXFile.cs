@@ -1,5 +1,5 @@
-﻿using Spatial.Common;
-using Spatial.Helpers;
+﻿using Spatial.Core.Common;
+using Spatial.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 /// <summary>
 /// https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd
 /// </summary>
-namespace Spatial.Documents
+namespace Spatial.Core.Documents
 {
     /// <summary>
     /// Implementation of https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd
@@ -37,7 +37,7 @@ namespace Spatial.Documents
             GeoFile result = new GeoFile();
 
             // Transform the activity to the route information
-            result.Routes = this.Activities.Activity.Select(activity => new GeoFileRoute() { Name = activity.Id, Points = activity.ToCoords() }).ToList();
+            result.Routes = this.Activities.Activity.Select(activity => new GeoFileRoute() { Name = activity.Id, Points = activity.ToCoords().CalculateSpeeds() }).ToList();
 
             return result;
         }
@@ -100,20 +100,7 @@ namespace Spatial.Documents
                     }).ToList()
 
                 };
-            /*
-            file.Routes
-            .Select(rt =>
-                new TCXActivities()
-                {
 
-                    RoutePoints = rt.Points
-                        .Where(pt => !pt.BadCoordinate && !pt.IsUnknown)
-                        .Select(pt =>
-                            GPXWaypoint.FromCoord(pt)
-                        ).ToList()
-                })
-            .ToList();
-            */
             return true;
         }
     }
