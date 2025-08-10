@@ -111,7 +111,7 @@ jobs:
         mkdir -p codeql-sarif
         codeql database analyze \
           --format=sarifv2 \
-          --output=codeql-sarif/results-${{ matrix.language }}.sarif \
+          --output=/home/runner/work/Spatial/results/${{ matrix.language }}.sarif \
           $(ls -d */.codeql-database) \
           $(codeql resolve queries --search-path . --format=bylanguage ${{ matrix.language }})
       env:
