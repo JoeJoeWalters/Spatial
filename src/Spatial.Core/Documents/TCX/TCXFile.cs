@@ -13,7 +13,8 @@ namespace Spatial.Documents
 {
     /// <summary>
     /// Implementation of https://www8.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd
-    /// Folders, workouts, courses element(s) not mapped because we only care about the core activity data we can extract right now
+    /// Folders, workouts, 
+    /// s element(s) not mapped because we only care about the core activity data we can extract right now
     /// </summary>
     [Serializable]
     [XmlRoot("TrainingCenterDatabase", Namespace = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2")]

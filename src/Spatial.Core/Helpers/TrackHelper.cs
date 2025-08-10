@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Spatial.Documents;
 using Spatial.Types;
+using System.Net;
 
 namespace Spatial.Helpers
 {
@@ -11,6 +12,13 @@ namespace Spatial.Helpers
     {
         public static Double EarthRadius = 40010040D; // What is the earth's radius in meters
         public static Double LatitudeDistance = EarthRadius / 360.0D; // What is 1 degree of latitude
+
+        public enum TrackCompareMethods
+        {
+            Delta = 0,
+            KolmogorovSmirnov = 1,
+            AngularMovement = 2
+        }
 
         public static List<GeoCoordinateExtended> InfillPositions(this List<GeoCoordinateExtended> points)
         {
@@ -131,7 +139,7 @@ namespace Spatial.Helpers
 
             // Loop the array with the none moving time stripped out and re-calculate the coordinate times based on the time differences
             DateTime pointInTime = cleaned[0].Time; // Take the start time of the origional track to be the new start time
-            for (var refId = 0; refId < timeDiffArray.Count; refId ++)
+            for (var refId = 0; refId < timeDiffArray.Count; refId++)
             {
                 GeoCoordinateExtended manipulated = timeDiffArray[refId].Value; // Create a reference to the point on the track to have the time manipluated
 
@@ -175,15 +183,38 @@ namespace Spatial.Helpers
         /// <param name="compareTo">The set of points to compare the list of points to</param>
         /// <param name="activityType">What type of activity is it (mainly to reduce or increase the comparison fuzziness)</param>
         /// <returns></returns>
-        public static Double Compare(this List<GeoCoordinateExtended> points, List<GeoCoordinateExtended> compareTo, ActivityType activityType)
+        public static Double Compare(this List<GeoCoordinateExtended> points, List<GeoCoordinateExtended> compareTo, ActivityType activityType, TrackCompareMethods method)
         {
             Double score = 0.0D;
 
-            // Score based on if the 
-            List<GeoCoordinateExtended> matches = points.Delta(compareTo, activityType, CompareType.Matches);
+            switch (method)
+            {
+                case TrackCompareMethods.AngularMovement:
 
-            score = (1.0 / points.Count) * matches.Count;
-            score = (score < 0) ? 0 : score;
+                    Double p1 = points.AngularValue();
+                    Double p2 = compareTo.AngularValue();
+
+                    score = (p1 > p2) ? 
+                        (1 / p1) * p2 :
+                        (1 / p2) * p1;
+
+                    break;
+
+                case TrackCompareMethods.KolmogorovSmirnov:
+
+#warning TODO: Implement Kolmogorov Smirnov method (issue being equal length), maybe apply over delta?
+
+                    break;
+
+                default:
+
+                    List<GeoCoordinateExtended> matches = points.Delta(compareTo, activityType, CompareType.Matches);
+
+                    score = (1.0 / points.Count) * matches.Count;
+                    score = (score < 0) ? 0 : score;
+
+                    break;
+            }
 
             return score;
         }
@@ -207,6 +238,28 @@ namespace Spatial.Helpers
                 default:
                     return sourceRounded.Where(source => !compareRounded.Any(compare => source == compare)).ToList();
             }
+        }
+
+        /// <summary>
+        /// Return the variance of angular movement in a list of coordinates
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static Double AngularValue(this List<GeoCoordinateExtended> points)
+        {
+            List<GeoCoordinateExtended> movingPoints = points.RemoveNotMoving();
+
+            // Loop all points in the track and only count those that had speed (movement) between the two points
+            var coordId = 1; // Start from the second point as the first will always have no speed (from another point) 
+            while (coordId <= points.Count - 1)
+            {
+                Double distance = points[coordId].GetDistanceTo(points[coordId + 1]);
+                Double angle = points[coordId].GetAngleTo(points[coordId + 1]);
+
+                coordId++;
+            }
+
+            return 0.0D;
         }
 
         /// <summary>

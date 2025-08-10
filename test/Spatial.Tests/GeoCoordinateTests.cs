@@ -1,10 +1,6 @@
 ﻿using FluentAssertions;
 using Spatial.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Spatial.Tests
@@ -40,7 +36,7 @@ namespace Spatial.Tests
             var horizontalAccuracy = 48D;
             var verticalAccuracy = 50D;
             var speed = 52D;
-            var course = 54D;
+            var course = 1.0D;
             var isUnknown = false;
             
             GeoCoordinate coordinate = new GeoCoordinate(latitude, longitude, altitude, horizontalAccuracy, verticalAccuracy, speed, course);
@@ -126,7 +122,23 @@ namespace Spatial.Tests
             var delta = distance - expected;
 
             (delta < 1e-8).Should().BeTrue();
-            
+
+        }
+
+        [Theory]
+        [InlineData(0.0D, 10.0D, 0.0D)]
+        [InlineData(0.0D, -10.0D, 180.0D)]
+        [InlineData(10.0D, 0.0D, 90.0D)]
+        [InlineData(-10.0D, 0.0D, 270.0D)]
+        public void GeoCoordinate_GetAngleTo_ReturnsExpectedAngle(double latitude, double longitude, double expectedResult)
+        {
+            var start = new GeoCoordinate(0, 0);
+            var end = new GeoCoordinate(latitude, longitude);
+            var angle = start.GetAngleTo(end);
+            var delta = angle - expectedResult;
+
+            (delta < 1e-8).Should().BeTrue();
+
         }
 
         [Fact]

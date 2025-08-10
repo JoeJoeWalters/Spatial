@@ -300,6 +300,26 @@ namespace Spatial.Common
             return 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3)));
         }
 
+        // Note: Not an angle on a sphere, just an angle over 2 dimensions, but that is all that is needed
+        public double GetAngleTo(GeoCoordinate other)
+        {
+            if (double.IsNaN(Latitude) || double.IsNaN(Longitude) || double.IsNaN(other.Latitude) ||
+                double.IsNaN(other.Longitude))
+            {
+                throw new ArgumentException("Argument latitude or longitude is not a number");
+            }
+
+            var d1 = Latitude * (Math.PI / 180.0);
+            var num1 = Longitude * (Math.PI / 180.0);
+            var d2 = other.Latitude * (Math.PI / 180.0);
+            var num2 = other.Longitude * (Math.PI / 180.0) - num1;
+
+            double xDiff = num2 - num1;
+            double yDiff = d2 - d1;
+
+            return Math.Atan2(yDiff, xDiff) * 180.0 / Math.PI;
+        }
+
         /// <summary>
         ///     Serves as a hash function for the GeoCoordinate.
         /// </summary>

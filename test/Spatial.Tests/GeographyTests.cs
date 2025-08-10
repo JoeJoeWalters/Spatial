@@ -96,7 +96,7 @@ namespace Spatial.Tests
             List<GeoCoordinateExtended> compare2 = geoCompare1.Routes[0].Points;
 
             // ACT
-            Double score = compare1.Compare(compare2, ActivityType.Running);
+            Double score = compare1.Compare(compare2, ActivityType.Running, TrackHelper.TrackCompareMethods.Delta);
 
             // ASSERT
             score.Should().Be(1.0D); // Should be a perfect match
@@ -110,7 +110,7 @@ namespace Spatial.Tests
             List<GeoCoordinateExtended> compare2 = geoTrackFile.Routes[0].Points;
 
             // ACT
-            Double score = compare1.Compare(compare2, ActivityType.Running);
+            Double score = compare1.Compare(compare2, ActivityType.Running, TrackHelper.TrackCompareMethods.Delta);
 
             // ASSERT
             score.Should().Be(0.0D); // Should be a total mismatch
@@ -124,7 +124,7 @@ namespace Spatial.Tests
             List<GeoCoordinateExtended> compare2 = geoCompare2.Routes[0].Points;
 
             // ACT
-            Double score = compare1.Compare(compare2, ActivityType.Running);
+            Double score = compare1.Compare(compare2, ActivityType.Running, TrackHelper.TrackCompareMethods.Delta);
 
             // ASSERT
             score.Should().BeGreaterThan(0.75); // Should be a partial match
