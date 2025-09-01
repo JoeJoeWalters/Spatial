@@ -108,21 +108,41 @@ namespace Spatial.Core.Tests.Unit
 			score.Should().Be(0.0D); // Should be a total mismatch
 		}
 
-		[Fact]
-		public void Track_Compare_Near()
+		[Theory]
+		[InlineData(TrackCompareMethods.AngularMovement)]
+        [InlineData(TrackCompareMethods.Delta)]
+        //[InlineData(TrackCompareMethods.KolmogorovSmirnov)]
+        public void Track_Compare_Near(TrackCompareMethods compareMethod)
 		{
 			// ARRANGE
 			List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
 			List<GeoCoordinateExtended> compare2 = geoCompare2.Routes[0].Points;
 
             // ACT
-            double score = compare1.Compare(compare2, ActivityType.Running, TrackCompareMethods.AngularMovement);
+            double score = compare1.Compare(compare2, ActivityType.Running, compareMethod);
 
 			// ASSERT
 			score.Should().BeGreaterThan(0.75); // Should be a partial match
-		}
+        }
 
-		[Fact]
+        [Theory]
+		[InlineData(1, CompareType.Matches)]
+        [InlineData(0, CompareType.Differences)]
+        public void Track_Compare_Delta(double result, CompareType type)
+        {
+            // ARRANGE
+            List<GeoCoordinateExtended> compare1 = geoCompare1.Routes[0].Points;
+            List<GeoCoordinateExtended> compare2 = geoCompare1.Routes[0].Points;
+
+            // ACT
+            List<GeoCoordinateExtended> diff = compare1.Delta(compare2, ActivityType.Running, type);
+			double comparePerc = (diff.Count == 0) ? 0 : compare1.Count / diff.Count;
+
+            // ASSERT
+            comparePerc.Should().Be(result);
+        }
+
+        [Fact]
 		public void Round_Coordinates_By_Meters()
 		{
 			// ARRANGE

@@ -285,17 +285,21 @@ namespace Spatial.Core.Tests.Unit
         [Fact]
         public void GeoCoordinate_SetHorizontalAccuracyToZero_ReturnsNaNInProperty()
         {
+            // Arrange & Act    
             GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, 0, double.NaN, double.NaN, double.NaN);
+            
+            // Assert
             coordinate.HorizontalAccuracy.Should().Be(double.NaN);
         }
 
         [Fact]
         public void GeoCoordinate_SetLatitude_ThrowsOnInvalidValues()
         {
+            // Arrange
             Action act;
-
             GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
+            // Act & Assert
             act = () => { coordinate.Latitude = 90.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
@@ -312,10 +316,11 @@ namespace Spatial.Core.Tests.Unit
         [Fact]
         public void GeoCoordinate_SetLongitude_ThrowsOnInvalidValues()
         {
+            // Arrange
             Action act;
-
             GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
+            // Act & Assert
             act = () => { coordinate.Longitude = 180.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
@@ -332,10 +337,11 @@ namespace Spatial.Core.Tests.Unit
         [Fact]
         public void GeoCoordinate_SetSpeed_ThrowsOnInvalidValues()
         {
+            // Arrange
             Action act;
-
             GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
+            // Act & Assert
             act = () => { coordinate.Speed = -0.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
@@ -346,10 +352,11 @@ namespace Spatial.Core.Tests.Unit
         [Fact]
         public void GeoCoordinate_SetVerticalAccuracy_ThrowsOnInvalidValues()
         {
+            // Arrange
             Action act;
-
             GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN);
 
+            // Act & Assert
             act = () => { coordinate.VerticalAccuracy = -0.1; };
             act.Should().Throw<ArgumentOutOfRangeException>();
 
@@ -360,7 +367,10 @@ namespace Spatial.Core.Tests.Unit
         [Fact]
         public void GeoCoordinate_SetVerticalAccuracyToZero_ReturnsNaNInProperty()
         {
+            // Arrange
             GeoCoordinate coordinate = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, 0, double.NaN, double.NaN);
+
+            // Act & Assert
             coordinate.VerticalAccuracy.Should().Be(double.NaN);            
         }
 
@@ -377,6 +387,20 @@ namespace Spatial.Core.Tests.Unit
             coordinate.Latitude = double.NaN;
             coordinate.Longitude = 1;
             coordinate.ToString().Should().Be("NaN, 1");
+        }
+
+        [Fact]
+        public void GeoCoordinate_GetAngleTo_WithNaNValues_ShouldThrowError()
+        {
+            // Arrange
+            GeoCoordinate coordinateFrom = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, 0, double.NaN, double.NaN);
+            GeoCoordinate coordinateTo = new GeoCoordinate(double.NaN, double.NaN, double.NaN, double.NaN, 0, double.NaN, double.NaN);
+
+            // Act
+            Action act = () => coordinateFrom.GetAngleTo(coordinateTo);
+
+            // Assert
+            act.Should().Throw<ArgumentException>();
         }
     }
 }

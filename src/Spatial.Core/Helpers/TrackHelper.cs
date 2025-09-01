@@ -19,9 +19,6 @@ namespace Spatial.Core.Helpers
 
     public static class TrackHelper
     {
-        public static Double EarthRadius = 40010040D; // What is the earth's radius in meters
-        public static Double LatitudeDistance = EarthRadius / 360.0D; // What is 1 degree of latitude
-
         public static List<GeoCoordinateExtended> InfillPositions(this List<GeoCoordinateExtended> points)
         {
             GeoCoordinateExtended lastValidPosition = null;

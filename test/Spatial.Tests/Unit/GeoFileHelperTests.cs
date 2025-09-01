@@ -88,7 +88,7 @@ namespace Spatial.Core.Tests.Unit
             // ARRANGE
             DateTime now = DateTime.UtcNow;
             DateTime last = now.AddMinutes(2);
-            Random random = new Random((int)now.Ticks); 
+            Random random = new Random((int)now.Ticks);
 
             GeoFile multiRouteFile = new GeoFile
             {
@@ -119,7 +119,7 @@ namespace Spatial.Core.Tests.Unit
 
             // ACT
             TimeSpan diff = multiRouteFile.TotalTime(TimeCalculationType.ActualTime);
-            
+
             // ASSERT
             diff.Should().Be(last - now);
         }
