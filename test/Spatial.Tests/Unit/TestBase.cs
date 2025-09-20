@@ -18,6 +18,7 @@ namespace Spatial.Core.Tests.Unit
         internal readonly GeoFile geoCompare2;
 
         internal readonly TCXFile tcxTrackFile;
+        internal readonly TCXFile tcxMultisportFile;
         internal readonly GPXFile gpxTrackFile;
         internal readonly GPXFile gpxWithWaypoints;
 
@@ -32,6 +33,7 @@ namespace Spatial.Core.Tests.Unit
             geoCompare2 = GetXMLData<GPXFile>("Data/GPXFiles/Compare2.gpx").ToGeoFile();
 
             tcxTrackFile = GetXMLData<TCXFile>("Data/TCXFiles/HalfMarathon.tcx");
+            tcxMultisportFile = GetXMLData<TCXFile>("Data/TCXFiles/Multisport.tcx");
             gpxTrackFile = GetXMLData<GPXFile>("Data/GPXFiles/HalfMarathon.gpx");
 
             gpxWithWaypoints = GetXMLData<GPXFile>("Data/GPXFiles/FellsLoop.gpx");

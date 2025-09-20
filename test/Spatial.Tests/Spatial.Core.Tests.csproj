@@ -39,6 +39,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\GPXFiles\GPXRouteOnly.gpx" />
     <EmbeddedResource Include="Data\GPXFiles\HalfMarathon.gpx" />
+    <EmbeddedResource Include="Data\TCXFiles\Multisport.tcx" />
     <EmbeddedResource Include="Data\TCXFiles\HalfMarathon.tcx" />
   </ItemGroup>
 

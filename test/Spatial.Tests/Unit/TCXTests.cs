@@ -15,6 +15,17 @@ namespace Spatial.Core.Tests.Unit
 		}
 
 		[Fact]
+		public void TCXMultiSport_Mapping_Success()
+		{
+			// ARRANGE
+			TCXFile tcxFile = tcxMultisportFile;
+
+			// ACT
+
+			// ASSERT
+        }
+
+        [Fact]
 		public void TCXPoint_Compare_Setters()
 		{
 			// ARRANGE
