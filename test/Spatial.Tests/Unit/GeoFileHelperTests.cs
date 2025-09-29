@@ -84,6 +84,18 @@ namespace Spatial.Core.Tests.Unit
         }
 
         [Fact]
+        public void GeoFile_RemoveNotMoving_Should_BeEquivalent()
+        {
+            // ARRANGE
+            GeoFile processed = geoTrackFile.RemoveNotMoving();
+
+            // ACT
+
+            // ASSERT
+            processed.Should().BeEquivalentTo(geoTrackFile);
+        }
+
+        [Fact]
         public void GeoFile_When_Merged_ShouldBeBothPoints()
         {
             // ARRANGE
