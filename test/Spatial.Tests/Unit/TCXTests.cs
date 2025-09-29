@@ -1,8 +1,10 @@
 using AwesomeAssertions;
 using Spatial.Core.Common;
 using Spatial.Core.Documents;
+using Spatial.Core.Documents.TCX.Exceptions;
 using Spatial.Core.Helpers;
 using System;
+using System.Formats.Tar;
 using System.Linq;
 using System.Text.Json;
 using Xunit;
@@ -66,7 +68,7 @@ namespace Spatial.Core.Tests.Unit
 		}
 
 		[Fact]
-		public void Track_Compare_FromGeoFile_Conversion()
+		public void TrackCompare_FromGeoFile_ShouldBeSuccess()
 		{
 			// ARRANGE
 			int transformedCount = 0;
@@ -93,6 +95,23 @@ namespace Spatial.Core.Tests.Unit
 		}
 
 		[Fact]
+		public void TrackCompare_FromGeoFile_WithNoPoints_ShouldThrowException()
+		{
+            // ARRANGE
+            GeoFile geoFile = tcxTrackFile.ToGeoFile();
+			geoFile.Routes[0].Points.Clear(); // Clear the points so nothing to convert
+            TCXFile tcxFile = new TCXFile();
+
+            // ACT
+            Action act = () => tcxFile.FromGeoFile(geoFile);
+
+            // ASSERT
+            act.Should().Throw<TCXConversionException>()
+				.WithMessage("No routes or points to convert");
+        }
+
+
+        [Fact]
 		public void TCXMultiSport_Check_XMLConversion()
 		{
             // ARRANGE

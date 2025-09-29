@@ -1,4 +1,5 @@
 ﻿using Spatial.Core.Common;
+using Spatial.Core.Documents.TCX.Exceptions;
 using Spatial.Core.Helpers;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ namespace Spatial.Core.Documents
         public Boolean FromGeoFile(GeoFile file)
         {
             if (file.Routes.Count == 0 || file.Routes[0].Points.Count == 0)
-                return false; // Nothing to convert
+                throw new TCXConversionException("No routes or points to convert");
 
             this.Activities =
                 new TCXActivities()
