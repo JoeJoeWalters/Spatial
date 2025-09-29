@@ -3,6 +3,7 @@ using Spatial.Core.Common;
 using Spatial.Core.Documents;
 using Spatial.Core.Helpers;
 using System;
+using System.Linq;
 using System.Text.Json;
 using Xunit;
 
@@ -23,9 +24,9 @@ namespace Spatial.Core.Tests.Unit
 			// ACT
 
 			// ASSERT
-        }
+		}
 
-        [Fact]
+		[Fact]
 		public void TCXPoint_Compare_Setters()
 		{
 			// ARRANGE
@@ -52,9 +53,9 @@ namespace Spatial.Core.Tests.Unit
 		[Fact]
 		public void Track_Compare_ToGeoFile_Conversion()
 		{
-            // ARRANGE
-            int origionalCount = 0;
-            int transformedCount = 0;
+			// ARRANGE
+			int origionalCount = 0;
+			int transformedCount = 0;
 
 			// ACT
 			origionalCount = tcxTrackFile.Activities.Activity[0].ToCoords().Count; // Count of origional
@@ -67,15 +68,15 @@ namespace Spatial.Core.Tests.Unit
 		[Fact]
 		public void Track_Compare_FromGeoFile_Conversion()
 		{
-            // ARRANGE
-            int transformedCount = 0;
+			// ARRANGE
+			int transformedCount = 0;
 			GeoFile geoFile = tcxTrackFile.ToGeoFile();
-            int origionalCount = geoFile.Routes[0].Points.Count;
+			int origionalCount = geoFile.Routes[0].Points.Count;
 			TCXFile tcxFile = new TCXFile();
 
-            // ACT
-            bool success = tcxFile.FromGeoFile(geoFile);
-            double totalDistance = geoFile.Routes[0].Points.CalculateTotalDistance();
+			// ACT
+			bool success = tcxFile.FromGeoFile(geoFile);
+			double totalDistance = geoFile.Routes[0].Points.CalculateTotalDistance();
 			transformedCount = tcxFile.Activities.Activity[0].Laps[0].Track.TrackPoints.Count; // Count of transformed track
 
 			// ASSERT
@@ -85,5 +86,19 @@ namespace Spatial.Core.Tests.Unit
 			tcxFile.Activities.Activity[0].Laps[0].DistanceMeters.Should().Be(totalDistance);
 			origionalCount.Should().Be(transformedCount);
 		}
-	}
+
+		[Fact]
+		public void TCXMultiSport_Check_XMLConversion()
+		{
+            // ARRANGE
+
+            // ACT
+
+            // ASSERT
+            tcxMultisportFile.Activities.MultiSportSession.Should().NotBeNull();
+            tcxMultisportFile.Activities.MultiSportSession.NextSport.Should().NotBeNull();
+            tcxMultisportFile.Activities.MultiSportSession.NextSport.Count.Should().BeGreaterThan(0);
+            tcxMultisportFile.Activities.MultiSportSession.FirstSport.Should().NotBeNull();
+        }
+    }
 }
