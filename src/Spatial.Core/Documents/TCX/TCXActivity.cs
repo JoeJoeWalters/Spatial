@@ -25,7 +25,7 @@ namespace Spatial.Core.Documents
         public TCXAbstractSource Creator { get; set; }
 
         [XmlElement("Extensions")]
-        public TCXExtensions Extensions { get; set; }
+        public TCXExtensions Extensions { get; set; } = new TCXExtensions();
 
         /// <summary>
         /// Convert the list of points to a list of common coordinates

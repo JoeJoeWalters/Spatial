@@ -30,7 +30,7 @@ namespace Spatial.Core.Documents
         public TCXAbstractSource Author { get; set; }
 
         [XmlElement("Extensions")]
-        public TCXExtensions Extensions { get; set; }
+        public TCXExtensions Extensions { get; set; } = new TCXExtensions();
 
         public GeoFile ToGeoFile()
         {
@@ -49,55 +49,60 @@ namespace Spatial.Core.Documents
         /// <returns>Success Or Failure flag</returns>
         public Boolean FromGeoFile(GeoFile file)
         {
+            if (file.Routes.Count == 0 || file.Routes[0].Points.Count == 0)
+                return false; // Nothing to convert
+
             this.Activities =
                 new TCXActivities()
                 {
                     Activity = file.Routes.Select(rt =>
-                    new TCXActivity()
-                    {
-                        Creator = new TCXAbstractSource()
+                        new TCXActivity()
                         {
-                        },
-                        Laps = new List<TCXActivityLap>()
-                        {
-                            new TCXActivityLap()
+                            Id = rt.Points[0].Time.ToString(),
+                            Notes = string.Empty,
+                            Creator = new TCXAbstractSource()
                             {
-                                AverageHeartRateBpm = new TCXHeartRateInBeatsPerMinute() { Value = 0 },
-                                Cadence = 0,
-                                Calories = 0,
-                                DistanceMeters = rt.Points.CalculateTotalDistance(),
-                                Extensions = new TCXExtensions() { },
-                                Intensity = String.Empty,
-                                MaximumHeartRateBpm = new TCXHeartRateInBeatsPerMinute() { Value = 0 },
-                                MaximumSpeed = 0,
-                                Notes = String.Empty,
-                                StartTime = String.Empty,
-                                TotalTimeSeconds = 0,
-                                TriggerMethod = String.Empty,
-                                Track = new TCXTrack()
+                            },
+                            Laps = new List<TCXActivityLap>()
+                            {
+                                new TCXActivityLap()
                                 {
-                                    TrackPoints = rt.Points.Select(pt =>
-                                        new TCXTrackPoint()
-                                        {
-                                            AltitudeMeters = pt.Altitude,
-                                            Cadence = 0, // SPM for running, revolutions for cycling (apparantly)
-                                            CreatedDateTime = pt.Time,
-                                            DistanceMeters = 0,
-                                            Extensions = new TCXExtensions(){ },
-                                            HeartRateBpm = new TCXHeartRateInBeatsPerMinute(){ },
-                                            Position = new TCXPosition()
+                                    AverageHeartRateBpm = new TCXHeartRateInBeatsPerMinute() { Value = 0 },
+                                    Cadence = 0,
+                                    Calories = 0,
+                                    DistanceMeters = rt.Points.CalculateTotalDistance(),
+                                    Extensions = new TCXExtensions() { },
+                                    Intensity = String.Empty,
+                                    MaximumHeartRateBpm = new TCXHeartRateInBeatsPerMinute() { Value = 0 },
+                                    MaximumSpeed = 0,
+                                    Notes = String.Empty,
+                                    StartTime = String.Empty,
+                                    TotalTimeSeconds = 0,
+                                    TriggerMethod = String.Empty,
+                                    Track = new TCXTrack()
+                                    {
+                                        TrackPoints = rt.Points.Select(pt =>
+                                            new TCXTrackPoint()
                                             {
-                                                LatitudeDegrees = pt.Latitude,
-                                                LongitudeDegrees = pt.Longitude
-                                            },
-                                            SensorState = String.Empty,
-                                            Time = ((pt.Time == null) ? DateTime.MinValue : pt.Time).ToString(TCXFile.DateTimeFormat)
-                                        }
-                                        ).ToList()
+                                                AltitudeMeters = pt.Altitude,
+                                                Cadence = 0, // SPM for running, revolutions for cycling (apparantly)
+                                                CreatedDateTime = pt.Time,
+                                                DistanceMeters = 0,
+                                                Extensions = new TCXExtensions(){ },
+                                                HeartRateBpm = new TCXHeartRateInBeatsPerMinute(){ },
+                                                Position = new TCXPosition()
+                                                {
+                                                    LatitudeDegrees = pt.Latitude,
+                                                    LongitudeDegrees = pt.Longitude
+                                                },
+                                                SensorState = String.Empty,
+                                                Time = ((pt.Time == null) ? DateTime.MinValue : pt.Time).ToString(TCXFile.DateTimeFormat)
+                                            }
+                                            ).ToList()
+                                    }
                                 }
                             }
-                        }
-                    }).ToList()
+                        }).ToList()
 
                 };
 

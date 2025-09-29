@@ -9,6 +9,10 @@
   <Activities>
     <Activity Sport="Running">
       <Id>2020-03-01T09:23:50.000Z</Id>
+      <Notes>Notes</Notes>
+      <Extensions>
+	    <Custom></Custom>
+      </Extensions>
       <Lap StartTime="2020-03-01T09:23:50.000Z">
         <TotalTimeSeconds>537.0</TotalTimeSeconds>
         <DistanceMeters>1609.34</DistanceMeters>

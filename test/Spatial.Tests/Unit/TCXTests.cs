@@ -82,8 +82,13 @@ namespace Spatial.Core.Tests.Unit
 			// ASSERT
 			success.Should().BeTrue();
 			tcxFile.Activities.Activity.Should().NotBeEmpty();
-			tcxFile.Activities.Activity[0].Laps.Should().NotBeEmpty();
-			tcxFile.Activities.Activity[0].Laps[0].DistanceMeters.Should().Be(totalDistance);
+			tcxFile.Activities.Activity.Count.Should().BeGreaterThan(0);
+			var activity = tcxFile.Activities.Activity[0];
+            activity.Id.Should().NotBeNull();
+            activity.Notes.Should().NotBeNull();
+            activity.Extensions.Should().NotBeNull();
+            activity.Laps.Should().NotBeEmpty();
+            activity.Laps[0].DistanceMeters.Should().Be(totalDistance);
 			origionalCount.Should().Be(transformedCount);
 		}
 
@@ -96,6 +101,7 @@ namespace Spatial.Core.Tests.Unit
 
             // ASSERT
             tcxMultisportFile.Activities.MultiSportSession.Should().NotBeNull();
+            tcxMultisportFile.Activities.MultiSportSession.Id.Should().NotBeNull();
             tcxMultisportFile.Activities.MultiSportSession.NextSport.Should().NotBeNull();
             tcxMultisportFile.Activities.MultiSportSession.NextSport.Count.Should().BeGreaterThan(0);
             tcxMultisportFile.Activities.MultiSportSession.FirstSport.Should().NotBeNull();
