@@ -49,9 +49,6 @@ namespace Spatial.Core.Helpers
         public static Double Compare(this GeoFile fileFrom, GeoFile fileTo, ActivityType activityType, TrackCompareMethods method) 
             => fileFrom.Routes[0].Points.Compare(fileTo.Routes[0].Points, activityType, method);
 
-        public static List<GeoCoordinateExtended> Delta(this GeoFile fileFrom, GeoFile fileTo, ActivityType activityType, CompareType compareType) 
-            => fileFrom.Routes[0].Points.Delta(fileTo.Routes[0].Points, activityType, compareType);
-
         public static List<List<GeoCoordinateExtended>> Split(this GeoFile file, TimeSpan splitTime) 
             => file.Routes[0].Points.Split(splitTime);
 

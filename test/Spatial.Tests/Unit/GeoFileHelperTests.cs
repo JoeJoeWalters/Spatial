@@ -80,6 +80,35 @@ namespace Spatial.Core.Tests.Unit
 
             // ASSERT
             processed.Should().BeEquivalentTo(geoTrackFile);
+            processed.Compare(geoTrackFile, ActivityType.Running, TrackCompareMethods.Delta).Should().Be(1);
+        }
+
+        [Fact]
+        public void GeoFile_When_Merged_ShouldBeBothPoints()
+        {
+            // ARRANGE
+            var files = new List<GeoFile>() { geoCompare1, geoCompare2 };
+
+            // ACT
+            var points = files.Merge();
+
+            // ASSERT
+            points.Count.Should().Be(geoCompare1.Routes[0].Points.Count + geoCompare2.Routes[0].Points.Count);
+        }
+
+        [Fact]
+        public void GeoFile_When_Split_ShouldBeEquivelantPositions()
+        {
+            // ARRANGE
+            GeoFile processed = geoTrackFile.Clone();
+
+            // ACT
+            var split = processed.Split(TimeSpan.FromMinutes(5));
+
+            // ASSERT
+            split.Count.Should().BeGreaterThan(0);
+            split[0][0].Should().BeEquivalentTo(processed.Routes[0].Points[0]);
+            split[0][split[0].Count - 1].Should().BeEquivalentTo(processed.Routes[0].Points[split[0].Count - 1]);
         }
 
         [Fact]
