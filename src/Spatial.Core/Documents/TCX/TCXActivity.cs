@@ -34,7 +34,7 @@ namespace Spatial.Core.Documents
         public List<GeoCoordinateExtended> ToCoords()
         {
             List<GeoCoordinateExtended> merged = new List<GeoCoordinateExtended>();
-            Laps.ForEach(lap => merged.AddRange(lap.Track.ToCoords()));
+            Laps.ForEach(lap => merged.AddRange(lap.Track.ToCoords(false)));
 
             // Infilling is done for each track but there could be bad coordinates left over at the start or end of tracks that
             // might still need dealing with so check first rather than always doing it.
