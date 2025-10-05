@@ -146,7 +146,7 @@ namespace Spatial.Core.Tests.Unit
 		{
 			// ARRANGE
 			var activity = tcxTrackFile.Activities.Activity[0];
-			activity.Laps[0].Track.TrackPoints[0].Position = null; // Invalidate one of the points
+			activity.Laps[0].Track.TrackPoints[1].Position = null; // Invalidate one of the points, position so last coordinate can be used (0)
 
             // ACT
             var cloned = activity.ToCoords();
