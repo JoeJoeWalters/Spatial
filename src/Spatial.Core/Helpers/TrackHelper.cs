@@ -198,19 +198,17 @@ namespace Spatial.Core.Helpers
 
                     break;
 
-                case TrackCompareMethods.KolmogorovSmirnov:
-
-#warning TODO: Implement Kolmogorov Smirnov method (issue being equal length), maybe apply over delta?
+                #warning TODO: Implement Kolmogorov Smirnov method (issue being equal length), maybe apply over delta?
+                /*case TrackCompareMethods.KolmogorovSmirnov:
 
                     break;
-
+                */
                 default:
 
                     List<GeoCoordinateExtended> matches = points.Delta(compareTo, activityType, CompareType.Matches);
 
                     score = (1.0 / points.Count) * matches.Count;
-                    score = (score < 0) ? 0 : score;
-
+                    
                     break;
             }
 
