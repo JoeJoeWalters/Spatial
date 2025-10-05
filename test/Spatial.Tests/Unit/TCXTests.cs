@@ -91,10 +91,26 @@ namespace Spatial.Core.Tests.Unit
             activity.Laps.Should().NotBeEmpty();
             activity.Laps[0].DistanceMeters.Should().Be(totalDistance);
 			origionalCount.Should().Be(transformedCount);
-		}
+        }
 
-		[Fact]
-		public void TrackCompare_FromGeoFile_WithNoPoints_ShouldThrowException()
+        [Fact]
+        public void TrackCompare_FromGeoFile_WithNoRoutes_ShouldThrowException()
+        {
+            // ARRANGE
+            GeoFile geoFile = tcxTrackFile.ToGeoFile();
+            geoFile.Routes.Clear(); // Clear the routes so nothing to convert
+            TCXFile tcxFile = new TCXFile();
+
+            // ACT
+            Action act = () => tcxFile.FromGeoFile(geoFile);
+
+            // ASSERT
+            act.Should().Throw<TCXConversionException>()
+                .WithMessage("No routes or points to convert");
+        }
+
+        [Fact]
+		public void TrackCompare_FromGeoFile_WithNoPointsInRoutes_ShouldThrowException()
 		{
             // ARRANGE
             GeoFile geoFile = tcxTrackFile.ToGeoFile();
@@ -154,7 +170,24 @@ namespace Spatial.Core.Tests.Unit
             cloned.Count.Should().Be(sumOfAllLaps);
         }
 
-		private TCXActivity CleanTCXPointNulls(TCXActivity activity)
+		[Theory]
+		[InlineData(true)]
+		[InlineData(false)]
+        public void TCXTrack_ToCoordsInfill_Should_HaveSamePoints(Boolean infill)
+		{
+			// ARRANGE
+			var track = tcxTrackFile.Activities.Activity[0].Laps[0].Track;
+			int origionalCount = track.TrackPoints.Count;
+
+			// ACT
+			var coords = track.ToCoords(infill);
+			int newCount = coords.Count;
+			
+			// ASSERT
+			newCount.Should().Be(origionalCount);
+        }
+
+        private TCXActivity CleanTCXPointNulls(TCXActivity activity)
 		{
 			TCXActivity clean = activity.Clone();
             activity.Laps.ForEach(lap =>
