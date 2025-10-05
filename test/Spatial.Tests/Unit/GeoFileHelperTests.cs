@@ -23,7 +23,7 @@ namespace Spatial.Core.Tests.Unit
 
             // ACT
             var geoFilePointCount = processed.Routes.SelectMany(r => r.Points).Count();
-            processed.Routes[0].Points[0] = new GeoCoordinateExtended(); // Add a bad coordinate
+            processed.Routes[0].Points[0] = new GeoCoordinateExtended() { BadCoordinate = true }; // Add a bad coordinate
 
             // ASSERT
             GPXFile gpxFile = new GPXFile();
