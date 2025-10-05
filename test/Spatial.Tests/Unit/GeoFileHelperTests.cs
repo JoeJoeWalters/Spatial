@@ -4,6 +4,7 @@ using Spatial.Core.Helpers;
 using Spatial.Core.Types;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Spatial.Core.Tests.Unit
@@ -12,6 +13,23 @@ namespace Spatial.Core.Tests.Unit
     {
         public GeoFileHelperTests() : base()
         {
+        }
+
+        [Fact]
+        public void FromGeoFile_WithBadCoordinate_Should_RemoveBadCoordinate()
+        {
+            // ARRANGE
+            GeoFile processed = gpxWithWaypoints.ToGeoFile();
+
+            // ACT
+            var geoFilePointCount = processed.Routes.SelectMany(r => r.Points).Count();
+            processed.Routes[0].Points[0] = new GeoCoordinateExtended(); // Add a bad coordinate
+
+            // ASSERT
+            GPXFile gpxFile = new GPXFile();
+            gpxFile.FromGeoFile(processed).Should().BeTrue();
+            var newCount = gpxFile.Routes.SelectMany(x => x.RoutePoints).Count();
+            newCount.Should().Be(geoFilePointCount - 1); // One less point as bad coordinate removed
         }
 
         [Fact]

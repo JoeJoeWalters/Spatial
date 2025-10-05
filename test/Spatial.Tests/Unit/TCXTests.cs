@@ -125,5 +125,20 @@ namespace Spatial.Core.Tests.Unit
             tcxMultisportFile.Activities.MultiSportSession.NextSport.Count.Should().BeGreaterThan(0);
             tcxMultisportFile.Activities.MultiSportSession.FirstSport.Should().NotBeNull();
         }
+
+		[Fact]
+		public void TCXActivity_Should_Infill_IfBadCoordinate()
+		{
+			// ARRANGE
+			var activity = tcxTrackFile.Activities.Activity[0];
+			activity.Laps[0].Track.TrackPoints[0].Position = null; // Invalidate one of the points
+
+            // ACT
+            var cloned = activity.ToCoords();
+			var sumOfAllLaps = activity.Laps.SelectMany(x => x.Track.TrackPoints).Count();
+
+            // ASSERT
+            cloned.Count.Should().Be(sumOfAllLaps);
+        }
     }
 }
