@@ -29,18 +29,24 @@ namespace Spatial.Core.Helpers
                 {
                     lastValidPosition = pt; // Assign this as the last known good position 
                 }
-                else if (pt.BadCoordinate && lastValidPosition != null)
+                else
                 {
-                    // Infill the position from the last known good
-                    pt.Latitude = lastValidPosition.Latitude;
-                    pt.Longitude = lastValidPosition.Longitude;
-                    pt.Altitude = lastValidPosition.Altitude;
-                    pt.BadCoordinate = false;
-                    lastValidPosition = pt; // Reassign this as the last known good
+                    if (lastValidPosition != null)
+                    {
+                        // Infill the position from the last known good
+                        pt.Latitude = lastValidPosition.Latitude;
+                        pt.Longitude = lastValidPosition.Longitude;
+                        pt.Altitude = lastValidPosition.Altitude;
+                        pt.BadCoordinate = false;
+                        lastValidPosition = pt; // Reassign this as the last known good
+                    }
+                    else
+                        pt.BadCoordinate = true; // Still a bad coordinate as we have no last known good position
                 }
             });
 
-            return points;
+            // Ensure any new bad coordinates are removed (meaning that there was no last known good position to infill from)
+            return points.Where(pt => !pt.BadCoordinate).ToList();
         }
 
         public static List<GeoCoordinateExtended> CalculateSpeeds(this List<GeoCoordinateExtended> points)

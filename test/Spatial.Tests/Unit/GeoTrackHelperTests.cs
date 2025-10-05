@@ -39,9 +39,9 @@ namespace Spatial.Core.Tests.Unit
         }
 
         [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        public void GeoCoordinates_WhenInfills_Should_BeSamePointCount(int position)
+        [InlineData(0, -1)]
+        [InlineData(1, 0)]
+        public void GeoCoordinates_WhenInfills_Should_BePointCount(int position, int diff)
         {
             // ARRANGE
             GeoFile geoFile = tcxTrackFile.ToGeoFile();
@@ -51,7 +51,7 @@ namespace Spatial.Core.Tests.Unit
             var infilled = geoFile.Routes[0].Points.InfillPositions();
 
             // ASSERT
-            infilled.Count.Should().Be(geoFile.Routes[0].Points.Count);
+            infilled.Count.Should().Be(geoFile.Routes[0].Points.Count + diff);
 
         }
     }

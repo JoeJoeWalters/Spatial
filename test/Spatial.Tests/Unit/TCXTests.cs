@@ -142,9 +142,9 @@ namespace Spatial.Core.Tests.Unit
         }
 
 		[Theory]
-		[InlineData(0)]
-        [InlineData(1)]
-        public void TCXActivity_Should_Infill_IfBadCoordinate_AtPosition(int position)
+		[InlineData(0, -1)]
+        [InlineData(1, 0)]
+        public void TCXActivity_Should_Infill_IfBadCoordinate_AtPosition(int position, int diff)
 		{
 			// ARRANGE
 			var activity = tcxTrackFile.Activities.Activity[0];
@@ -155,7 +155,7 @@ namespace Spatial.Core.Tests.Unit
 			var sumOfAllLaps = activity.Laps.SelectMany(x => x.Track.TrackPoints).Count();
 
             // ASSERT
-            cloned.Count.Should().Be(sumOfAllLaps);
+            cloned.Count.Should().Be(sumOfAllLaps + diff);
         }
 
         [Fact]
