@@ -4,6 +4,7 @@ using Spatial.Core.Helpers;
 using Spatial.Core.Types;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Spatial.Core.Tests.Unit
@@ -35,6 +36,23 @@ namespace Spatial.Core.Tests.Unit
 
             // ASSERT
             rounded.Count.Should().Be(original.Count);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public void GeoCoordinates_WhenInfills_Should_BeSamePointCount(int position)
+        {
+            // ARRANGE
+            GeoFile geoFile = tcxTrackFile.ToGeoFile();
+            geoFile.Routes[0].Points[position] = new GeoCoordinateExtended() { BadCoordinate = true }; // Add a bad coordinate
+
+            // ACT
+            var infilled = geoFile.Routes[0].Points.InfillPositions();
+
+            // ASSERT
+            infilled.Count.Should().Be(geoFile.Routes[0].Points.Count);
+
         }
     }
 }

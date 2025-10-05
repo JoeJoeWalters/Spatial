@@ -141,12 +141,14 @@ namespace Spatial.Core.Tests.Unit
             tcxMultisportFile.Activities.MultiSportSession.FirstSport.Should().NotBeNull();
         }
 
-		[Fact]
-		public void TCXActivity_Should_Infill_IfBadCoordinate()
+		[Theory]
+		[InlineData(0)]
+        [InlineData(1)]
+        public void TCXActivity_Should_Infill_IfBadCoordinate_AtPosition(int position)
 		{
 			// ARRANGE
 			var activity = tcxTrackFile.Activities.Activity[0];
-			activity.Laps[0].Track.TrackPoints[1].Position = null; // Invalidate one of the points, position so last coordinate can be used (0)
+			activity.Laps[0].Track.TrackPoints[position].Position = null; // Invalidate one of the points, position so last coordinate can be used (0)
 
             // ACT
             var cloned = activity.ToCoords();
