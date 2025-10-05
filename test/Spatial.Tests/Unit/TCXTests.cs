@@ -4,7 +4,6 @@ using Spatial.Core.Documents;
 using Spatial.Core.Documents.TCX.Exceptions;
 using Spatial.Core.Helpers;
 using System;
-using System.Formats.Tar;
 using System.Linq;
 using System.Text.Json;
 using Xunit;
@@ -139,6 +138,30 @@ namespace Spatial.Core.Tests.Unit
 
             // ASSERT
             cloned.Count.Should().Be(sumOfAllLaps);
+        }
+
+        [Fact]
+        public void TCXActivity_Should_NotInfill_IfNoBadCoordinates()
+        {
+            // ARRANGE
+            var activity = CleanTCXPointNulls(tcxTrackFile.Activities.Activity[0]);
+
+            // ACT
+            var cloned = activity.ToCoords();
+            var sumOfAllLaps = activity.Laps.SelectMany(x => x.Track.TrackPoints).Count();
+
+            // ASSERT
+            cloned.Count.Should().Be(sumOfAllLaps);
+        }
+
+		private TCXActivity CleanTCXPointNulls(TCXActivity activity)
+		{
+			TCXActivity clean = activity.Clone();
+            activity.Laps.ForEach(lap =>
+			{
+				lap.Track.TrackPoints = lap.Track.TrackPoints.Where(pt => pt.Position != null).ToList();
+            });
+			return clean;
         }
     }
 }

@@ -43,5 +43,7 @@ namespace Spatial.Core.Documents
             else
                 return merged; // No need for infilling as no bad coordinates
         }
+
+        public TCXActivity Clone() => (TCXActivity)MemberwiseClone();
     }
 }
